@@ -1,4 +1,4 @@
-package org.winterframework.dashboard.security.rest;
+package org.winterframework.dashboard.security.controller;
 
 
 import io.swagger.annotations.Api;
