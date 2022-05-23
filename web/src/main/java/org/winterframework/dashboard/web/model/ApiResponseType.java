@@ -1,18 +1,14 @@
 package org.winterframework.dashboard.web.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum ApiResponseType {
-    SUCCESS("success"),
-    FAILURE("failure"),
-    ERROR("error");
+    SUCCESS,
+    FAILURE,
+    ERROR;
 
-    private final String value;
-
-    ApiResponseType(String value) {
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return value;
+    @JsonValue
+    public String forJackson() {
+        return name().toLowerCase();
     }
 }

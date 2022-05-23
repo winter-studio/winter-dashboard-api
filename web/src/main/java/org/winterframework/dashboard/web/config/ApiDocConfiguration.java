@@ -13,18 +13,17 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Profile("dev")
 @Configuration
 @EnableSwagger2
-public class Knife4jConfiguration {
+public class ApiDocConfiguration {
     @Bean
     public Docket defaultApi2() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(new ApiInfoBuilder()
-                        //.title("swagger-bootstrap-ui-demo RESTful APIs")
-                        .description("# swagger-bootstrap-ui-demo RESTful APIs")
-                        .termsOfServiceUrl("http://www.xx.com/")
+                        .title("Winter Dashboard API")
+                        .description("# API 文档")
                         .version("1.0")
                         .build())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("org.winterframework.**.rest"))
+                .apis(RequestHandlerSelectors.basePackage("org.winterframework.dashboard"))
                 .paths(PathSelectors.any())
                 .build();
     }

@@ -13,7 +13,7 @@ class UserServiceTest {
     private UserService userService;
 
     @Test
-    void createUser() {
+    void testCreateUser() {
         userService.createUser(new CreateUserReq("admin", "123456"));
     }
 }

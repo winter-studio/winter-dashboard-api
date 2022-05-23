@@ -1,5 +1,7 @@
 package org.winterframework.dashboard.base.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +17,7 @@ import org.winterframework.dashboard.web.model.APIResponse;
  * @author Kyun
  * @since 2022-05-23
  */
+@Api(tags = "用户模块")
 @Controller
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @ApiOperation("创建用户")
     @PostMapping
     public APIResponse<CreateUserRes> createUser(@Validated @RequestBody CreateUserReq req) {
         CreateUserRes res = userService.createUser(req);
