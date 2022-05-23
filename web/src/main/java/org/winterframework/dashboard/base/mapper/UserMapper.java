@@ -4,10 +4,6 @@ import org.winterframework.dashboard.base.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
- * <p>
- *  Mapper 接口
- * </p>
- *
  * @author Kyun
  * @since 2022-05-23
  */

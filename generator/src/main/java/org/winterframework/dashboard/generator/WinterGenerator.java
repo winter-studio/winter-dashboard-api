@@ -3,6 +3,7 @@ package org.winterframework.dashboard.generator;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.TemplateType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.baomidou.mybatisplus.generator.fill.Column;
 
@@ -33,7 +34,19 @@ public class WinterGenerator {
 
                              builder.entityBuilder().logicDeleteColumnName("deleted")
                                     .addTableFills(new Column("create_time", FieldFill.INSERT))
-                                    .enableLombok()
+                                    .disableSerialVersionUID()
+                                    .enableLombok();
+
+                             builder.serviceBuilder().formatServiceFileName("%sService");
+
+                         })
+                         .templateConfig(builder -> {
+                             builder.disable(TemplateType.SERVICEIMPL)
+                                    .entity("/templates/entity.java")
+                                    .service("/templates/service.java")
+                                    .mapper("/templates/mapper.java")
+                                    .xml("/templates/mapper.xml")
+                                    .controller("/templates/controller.java")
                              ;
                          })
                          .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
