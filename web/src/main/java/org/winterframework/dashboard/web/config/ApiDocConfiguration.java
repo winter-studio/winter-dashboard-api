@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class ApiDocConfiguration {
     @Bean
-    public Docket defaultApi2() {
+    public Docket apiDoc() {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(new ApiInfoBuilder()
                         .title("Winter Dashboard API")
