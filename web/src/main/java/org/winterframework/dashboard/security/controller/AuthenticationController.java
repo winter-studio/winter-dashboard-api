@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.winterframework.dashboard.security.model.UserLoginRequest;
 import org.winterframework.dashboard.security.model.UserLoginResponse;
 import org.winterframework.dashboard.security.service.AuthenticationService;
-import org.winterframework.dashboard.web.model.ApiResponse;
+import org.winterframework.dashboard.web.model.APIResponse;
 
 @Api(tags = "认证模块")
 @RestController
@@ -23,10 +23,10 @@ public class AuthenticationController {
 
     @ApiOperation(value = "用户登录")
     @PostMapping("/login")
-    public ApiResponse<UserLoginResponse> login(@RequestBody UserLoginRequest userLoginRequest) {
+    public APIResponse<UserLoginResponse> login(@RequestBody UserLoginRequest userLoginRequest) {
 
         UserLoginResponse res = authenticateService.authenticate(userLoginRequest);
 
-        return ApiResponse.success(res);
+        return APIResponse.success(res);
     }
 }

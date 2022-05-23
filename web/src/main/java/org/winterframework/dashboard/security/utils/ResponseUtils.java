@@ -2,13 +2,13 @@ package org.winterframework.dashboard.security.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.winterframework.dashboard.web.model.ApiResponse;
+import org.winterframework.dashboard.web.model.APIResponse;
 
 public class ResponseUtils {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public String error(String message) {
-        ApiResponse<Void> res = ApiResponse.error(message);
+        APIResponse<Void> res = APIResponse.error(message);
         try {
             return objectMapper.writeValueAsString(res);
         } catch (JsonProcessingException e) {
