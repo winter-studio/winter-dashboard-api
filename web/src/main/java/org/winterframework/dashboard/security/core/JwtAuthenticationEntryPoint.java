@@ -20,7 +20,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         // Here you can place any message you want
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getOutputStream().println("{ \"message\": \"" + authException.getMessage() + "\" }");
+        response.getOutputStream().println("{\"code\":10001,\"message\":\"Unauthorized\"}");
 
     }
 }
