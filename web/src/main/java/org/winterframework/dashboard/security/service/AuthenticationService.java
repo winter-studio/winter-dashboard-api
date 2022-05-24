@@ -31,7 +31,7 @@ public class AuthenticationService {
             throw new ApiException("密码错误");
         }
 
-        String token = jwtProvider.createToken(userLoginRequest.username(), Collections.singletonList("ADMIN"));
+        String token = jwtProvider.createToken(user.getId().toString(), Collections.singletonList("ADMIN"));
         return new UserLoginResponse(userLoginRequest.username(), userLoginRequest.username(), token, null);
     }
 }
