@@ -1,6 +1,8 @@
 package org.winterframework.dashboard.security.core;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -15,15 +17,11 @@ import java.io.IOException;
 
 @Slf4j
 @Component
-public class AuthenticationFilter extends OncePerRequestFilter {
+@RequiredArgsConstructor
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
     private final JwtProvider jwtProvider;
-
-    public AuthenticationFilter(JwtProvider jwtProvider) {
-        this.jwtProvider = jwtProvider;
-    }
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,

@@ -13,12 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
-import org.winterframework.dashboard.security.core.DynamicWhiteListRequestMatcher;
 import org.winterframework.dashboard.security.core.JwtAccessDeniedHandler;
 import org.winterframework.dashboard.security.core.JwtAuthenticationEntryPoint;
-import org.winterframework.dashboard.security.core.JwtAuthenticationManager;
-import org.winterframework.dashboard.security.core.JwtConfigurer;
-import org.winterframework.dashboard.security.core.JwtProvider;
+import org.winterframework.dashboard.security.core.JwtAuthenticationFilter;
+
+import java.util.List;
 
 @Slf4j
 @EnableWebSecurity
@@ -33,73 +32,42 @@ public class WebSecurityConfig {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         // ALTHOUGH THIS SEEMS LIKE USELESS CODE,
         // IT'S REQUIRED TO PREVENT SPRING BOOT AUTO-CONFIGURATION
-        return new JwtAuthenticationManager();
+        return null;
     }
 
-   @Profile("dev")
-   @Bean
-   public SecurityFilterChain swaggerFilterChain(HttpSecurity http,
-                                                 JwtProvider jwtProvider,
-                                                 CorsFilter corsFilter,
-                                                 JwtAuthenticationEntryPoint authenticationErrorHandler,
-                                                 JwtAccessDeniedHandler jwtAccessDeniedHandler) throws Exception {
-       log.info("enable swagger documentation in DEV");
-       HttpSecurity and = http.authorizeRequests()
-                              .antMatchers(
-                                      "/v3/api-docs",
-                                      "/swagger-resources/**",
-                                      "/doc.html",
-                                      "/webjars/**").permitAll().and();
-       setupCommonHttpSecurity(and, jwtProvider, corsFilter, authenticationErrorHandler, jwtAccessDeniedHandler);
-
-       return and.build();
-   }
-
-    @Profile("!dev")
+    @Profile("dev")
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http,
-                                           JwtProvider jwtProvider,
-                                           CorsFilter corsFilter,
+    public PermitAllRequestMatcher apiDocConfigurer() {
+        return new ApiDocRequestMatcher();
+    }
+
+
+    @Bean
+    public PermitAllRequestMatcher dynamicWhiteListRequestMatcher() {
+        return new DynamicWhiteListRequestMatcher();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http, CorsFilter corsFilter,
                                            JwtAuthenticationEntryPoint authenticationErrorHandler,
-                                           JwtAccessDeniedHandler jwtAccessDeniedHandler) throws Exception {
-        setupCommonHttpSecurity(http, jwtProvider, corsFilter, authenticationErrorHandler, jwtAccessDeniedHandler);
+                                           JwtAccessDeniedHandler accessDeniedHandler,
+                                           JwtAuthenticationFilter jwtAuthenticationFilter,
+                                           List<PermitAllRequestMatcher> requestMatchers) throws Exception {
+        http.csrf().disable()
+            .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+            .exceptionHandling().authenticationEntryPoint(authenticationErrorHandler)
+            .accessDeniedHandler(accessDeniedHandler)
+            // enable frame
+            .and().headers().frameOptions().sameOrigin()
+            // create no session
+            .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            // authenticate rules
+            .and().authorizeRequests()
+            .requestMatchers(requestMatchers.toArray(requestMatchers.toArray(new PermitAllRequestMatcher[0])))
+            .permitAll()
+            .anyRequest().authenticated();
         return http.build();
     }
-
-    private void setupCommonHttpSecurity(HttpSecurity http, JwtProvider jwtProvider, CorsFilter corsFilter,
-                                         JwtAuthenticationEntryPoint authenticationErrorHandler,
-                                         JwtAccessDeniedHandler jwtAccessDeniedHandler) throws Exception {
-        http
-                // we don't need CSRF because our token is invulnerable
-                .csrf().disable()
-
-                .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-
-                .exceptionHandling()
-                .authenticationEntryPoint(authenticationErrorHandler)
-                .accessDeniedHandler(jwtAccessDeniedHandler)
-
-                // enable h2-console
-                .and()
-                .headers()
-                .frameOptions()
-                .sameOrigin()
-
-                // create no session
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
-                .and()
-                .authorizeRequests()
-                .requestMatchers(new DynamicWhiteListRequestMatcher())
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-
-                .and()
-                .apply(new JwtConfigurer(jwtProvider));
-    }
-
 
 }

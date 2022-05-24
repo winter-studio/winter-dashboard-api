@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.winterframework.dashboard.base.model.request.CreateUserReq;
+import org.winterframework.dashboard.base.model.response.CreateUserRes;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -14,6 +15,7 @@ class UserServiceTest {
 
     @Test
     void testCreateUser() {
-        userService.createUser(new CreateUserReq("admin", "123456"));
+        CreateUserRes admin = userService.createUser(new CreateUserReq("admin", "123456"));
+        assertNotNull(admin);
     }
 }

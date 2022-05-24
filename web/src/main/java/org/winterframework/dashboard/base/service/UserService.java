@@ -1,5 +1,7 @@
 package org.winterframework.dashboard.base.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +28,10 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         user.setPassword(passwordEncoder.encode(req.password()));
         boolean saved = this.save(user);
         return saved ? new CreateUserRes(user.getId(), user.getUsername()) : null;
+    }
+
+    public User getByUsername(String username) {
+        LambdaQueryWrapper<User> query = Wrappers.<User>lambdaQuery().eq(User::getUsername, username);
+        return this.getOne(query);
     }
 }

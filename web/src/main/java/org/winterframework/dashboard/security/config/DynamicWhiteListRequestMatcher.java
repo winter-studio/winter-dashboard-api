@@ -1,4 +1,4 @@
-package org.winterframework.dashboard.security.core;
+package org.winterframework.dashboard.security.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.web.util.matcher.RequestMatcher;
@@ -6,14 +6,14 @@ import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
-public class DynamicWhiteListRequestMatcher implements RequestMatcher {
+public class DynamicWhiteListRequestMatcher extends PermitAllRequestMatcher {
 
     private final Set<String> whiteList = new HashSet<>();
 
-    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     public DynamicWhiteListRequestMatcher() {
         //TODO dynamic config with database
@@ -22,14 +22,9 @@ public class DynamicWhiteListRequestMatcher implements RequestMatcher {
         whiteList.add("/auth/**");
     }
 
-    @Override
-    public boolean matches(HttpServletRequest request) {
-        for (String s : whiteList) {
-            if (antPathMatcher.match(s, request.getRequestURI())) {
-                return true;
-            }
-        }
-        return false;
-    }
 
+    @Override
+    protected Set<String> getPaths() {
+        return whiteList;
+    }
 }
