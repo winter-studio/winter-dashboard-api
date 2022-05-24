@@ -4,6 +4,7 @@ package org.winterframework.dashboard.security.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ public class AuthenticationController {
 
     @ApiOperation(value = "用户登录")
     @PostMapping("/login")
-    public APIResponse<UserLoginResponse> login(@RequestBody UserLoginRequest userLoginRequest) {
+    public APIResponse<UserLoginResponse> login(@Validated @RequestBody UserLoginRequest userLoginRequest) {
 
         UserLoginResponse res = authenticateService.authenticate(userLoginRequest);
 

@@ -1,24 +1,45 @@
 package org.winterframework.dashboard.web.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.winterframework.dashboard.web.model.APIResponse;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Iterator;
+import java.util.List;
 
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    /**
-     * 处理空指针的异常
-     * @param req
-     * @param e
-     * @return
-     */
-    @ExceptionHandler(value =NullPointerException.class)
-    public APIResponse<Void> exceptionHandler(HttpServletRequest req, NullPointerException e){
-        log.error("发生空指针异常！原因是:",e);
-        return APIResponse.failure("异常");
+
+    @ExceptionHandler(value = ApiException.class)
+    public APIResponse<Void> exceptionHandler(HttpServletRequest req, ApiException e) {
+        return APIResponse.failure(e.getMessage());
+    }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public APIResponse<Void> exceptionHandler(HttpServletRequest req, MethodArgumentNotValidException e) {
+        return buildArgumentErrorResult(e);
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    public APIResponse<Void> exceptionHandler(HttpServletRequest req, Exception e) {
+        log.error("Exception Caught", e);
+        return APIResponse.error("请求异常");
+    }
+
+    private APIResponse<Void> buildArgumentErrorResult(BindingResult bindingResult) {
+        List<ObjectError> fieldErrors = bindingResult.getAllErrors();
+        StringBuilder errors = new StringBuilder();
+
+        for (ObjectError fieldError : fieldErrors) {
+            errors.append(fieldError.getDefaultMessage()).append(";");
+        }
+
+        return APIResponse.failure(errors.toString());
     }
 }
