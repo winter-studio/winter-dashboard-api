@@ -11,6 +11,7 @@ import org.winterframework.dashboard.base.entity.User;
 import org.winterframework.dashboard.base.mapper.UserMapper;
 import org.winterframework.dashboard.base.model.request.CreateUserReq;
 import org.winterframework.dashboard.base.model.response.CreateUserRes;
+import org.winterframework.dashboard.web.exception.ApiException;
 
 /**
  * @author Kyun
@@ -26,7 +27,12 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         User user = new User();
         user.setUsername(req.username());
         user.setPassword(passwordEncoder.encode(req.password()));
-        boolean saved = this.save(user);
+        boolean saved = false;
+        try {
+            saved = this.save(user);
+        } catch (Exception e) {
+            throw new ApiException("用户名已存在", e);
+        }
         return saved ? new CreateUserRes(user.getId(), user.getUsername()) : null;
     }
 

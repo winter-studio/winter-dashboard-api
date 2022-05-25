@@ -27,5 +27,7 @@ knife4j:
     enableDebug: true
     enableOpenApi: true
     enableGroup: true
+    enableDynamicParameter: true
+    enableFooter: true
   cors: false
   production: false
