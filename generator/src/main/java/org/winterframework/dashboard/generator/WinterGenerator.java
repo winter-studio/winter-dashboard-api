@@ -12,7 +12,7 @@ import java.util.Collections;
 public class WinterGenerator {
     public static void main(String[] args) {
         String url =
-                "jdbc:mysql://localhost:3306/winter-dashboard?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false";
+                "jdbc:mysql://localhost:3306/winter-dashboard?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true";
         String username = "root";
         String password = "123456";
         FastAutoGenerator.create(url, username, password)
@@ -29,7 +29,7 @@ public class WinterGenerator {
                                             "C:\\temp\\xml")); // 设置mapperXml生成路径
                          })
                          .strategyConfig(builder -> {
-                             builder.addInclude("user") // 设置需要生成的表名
+                             builder.addInclude("role,menu,user_role,role_menu") // 设置需要生成的表名
                                     .addTablePrefix("t_", "c_"); // 设置过滤表前缀
 
                              builder.entityBuilder().logicDeleteColumnName("deleted")
