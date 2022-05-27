@@ -7,11 +7,20 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.winterframework.dashboard.base.entity.Menu;
 import org.winterframework.dashboard.base.entity.User;
+import org.winterframework.dashboard.base.mapper.MenuMapper;
 import org.winterframework.dashboard.base.mapper.UserMapper;
+import org.winterframework.dashboard.base.model.data.MenuTree;
 import org.winterframework.dashboard.base.model.request.CreateUserReq;
 import org.winterframework.dashboard.base.model.response.CreateUserRes;
+import org.winterframework.dashboard.base.utils.MenuTreeBuilder;
+import org.winterframework.dashboard.security.utils.SecurityUtils;
 import org.winterframework.dashboard.web.exception.ApiException;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Kyun
@@ -22,6 +31,7 @@ import org.winterframework.dashboard.web.exception.ApiException;
 public class UserService extends ServiceImpl<UserMapper, User> implements IService<User> {
 
     private final PasswordEncoder passwordEncoder;
+    private final MenuMapper menuMapper;
 
     public CreateUserRes createUser(CreateUserReq req) {
         User user = new User();
@@ -40,4 +50,12 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         LambdaQueryWrapper<User> query = Wrappers.<User>lambdaQuery().eq(User::getUsername, username);
         return this.getOne(query);
     }
+
+    public List<MenuTree> getCurrentUserMenuTree() {
+        String userId = SecurityUtils.getUserId();
+        List<Menu> menus = menuMapper.getMenusByUserId(userId);
+        MenuTreeBuilder builder = new MenuTreeBuilder(menus);
+        return builder.build();
+    }
+
 }

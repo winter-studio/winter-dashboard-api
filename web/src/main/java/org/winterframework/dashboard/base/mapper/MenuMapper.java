@@ -1,7 +1,10 @@
 package org.winterframework.dashboard.base.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.winterframework.dashboard.base.entity.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * @author Kyun
@@ -9,4 +12,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface MenuMapper extends BaseMapper<Menu> {
 
+    List<Menu> getMenusByUserId(@Param("userId") String userId);
 }

@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
+import org.winterframework.dashboard.base.model.data.MenuTree;
 import org.winterframework.dashboard.base.model.request.CreateUserReq;
 import org.winterframework.dashboard.base.model.response.CreateUserRes;
 import org.winterframework.dashboard.base.service.UserService;
+import org.winterframework.dashboard.security.utils.SecurityUtils;
 import org.winterframework.dashboard.web.model.APIResponse;
+
+import java.util.List;
 
 /**
  * @author Kyun
@@ -30,6 +34,13 @@ public class UserController {
     public APIResponse<CreateUserRes> createUser(@Validated @RequestBody CreateUserReq req) {
         CreateUserRes res = userService.createUser(req);
         return res == null ? APIResponse.failure("创建用户失败") : APIResponse.success(res);
+    }
+
+    @ApiOperation("获取当前登录用户菜单列表")
+    @PostMapping
+    public APIResponse<List<MenuTree>> createUser() {
+        List<MenuTree> res = userService.getCurrentUserMenuTree();
+        return res == null ? APIResponse.failure("查询菜单失败") : APIResponse.success(res);
     }
 
 }
