@@ -5,19 +5,20 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Kyun
- * @since 2022-05-26
+ * @since 2022-05-28
  */
 @Getter
 @Setter
-@ApiModel(value = "Menu", description = "")
+@ApiModel(value = "Menu")
 public class Menu {
 
     @TableId(value = "id", type = IdType.AUTO)
@@ -52,6 +53,9 @@ public class Menu {
 
     @ApiModelProperty("是否可匿名访问")
     private Integer permitAll;
+
+    @ApiModelProperty("排序(基于同级)")
+    private Integer sort;
 
 
 }

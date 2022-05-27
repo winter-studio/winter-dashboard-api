@@ -29,7 +29,7 @@ public class WinterGenerator {
                                             "C:\\temp\\xml")); // 设置mapperXml生成路径
                          })
                          .strategyConfig(builder -> {
-                             builder.addInclude("role,menu,user_role,role_menu") // 设置需要生成的表名
+                             builder.addInclude("menu") // 设置需要生成的表名
                                     .addTablePrefix("t_", "c_"); // 设置过滤表前缀
 
                              builder.entityBuilder().logicDeleteColumnName("deleted")
