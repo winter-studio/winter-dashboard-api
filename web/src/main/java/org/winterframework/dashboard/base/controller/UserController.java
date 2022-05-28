@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import org.winterframework.dashboard.base.model.data.MenuTree;
 import org.winterframework.dashboard.base.model.request.CreateUserReq;
 import org.winterframework.dashboard.base.model.response.CreateUserRes;
@@ -23,7 +24,7 @@ import java.util.List;
  * @since 2022-05-23
  */
 @Api(tags = "用户模块")
-@Controller
+@RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {

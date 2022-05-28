@@ -38,6 +38,8 @@ public class WinterGenerator {
 
                              builder.serviceBuilder().formatServiceFileName("%sService");
 
+                             builder.controllerBuilder().enableRestStyle();
+
                          })
                          .templateConfig(builder -> {
                              builder.disable(TemplateType.SERVICEIMPL)
