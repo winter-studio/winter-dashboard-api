@@ -2,10 +2,10 @@ package org.winterframework.dashboard.base.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -18,7 +18,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@ApiModel(value = "Menu")
+@ApiModel(value = "Menu", description = "")
 public class Menu {
 
     @TableId(value = "id", type = IdType.AUTO)
@@ -46,16 +46,18 @@ public class Menu {
     private String type;
 
     @ApiModelProperty("是否隐藏")
-    private Integer hidden;
+    private Boolean hidden;
 
     @ApiModelProperty("是否缓存")
-    private Integer keepAlive;
+    private Boolean keepAlive;
 
     @ApiModelProperty("是否可匿名访问")
-    private Integer permitAll;
+    private Boolean permitAll;
 
     @ApiModelProperty("排序(基于同级)")
     private Integer sort;
 
+    @TableLogic
+    private Boolean deleted;
 
 }

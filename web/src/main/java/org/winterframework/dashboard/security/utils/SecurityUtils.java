@@ -7,16 +7,16 @@ import org.winterframework.dashboard.security.core.JwtUserDetails;
 
 @Slf4j
 public class SecurityUtils {
-    public static String getUserId() {
+    public static Long getUserId() {
         final Authentication authentication = getAuthentication();
 
         Object principal = authentication.getPrincipal();
 
-        String userId = null;
+        Long userId = null;
         if (principal instanceof JwtUserDetails jwtUserDetails) {
             userId = jwtUserDetails.getUserId();
         } else if (principal instanceof String s) {
-            userId = s;
+            userId = Long.valueOf(s);
         }
 
         return userId;

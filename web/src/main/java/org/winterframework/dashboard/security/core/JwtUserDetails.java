@@ -23,8 +23,8 @@ public class JwtUserDetails implements UserDetails {
         return roles.stream().map(SimpleGrantedAuthority::new).toList();
     }
 
-    public String getUserId(){
-        return claims.getSubject();
+    public Long getUserId(){
+        return Long.valueOf(claims.getSubject());
     }
 
     @Override

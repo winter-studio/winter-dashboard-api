@@ -52,7 +52,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
     }
 
     public List<MenuTree> getCurrentUserMenuTree() {
-        String userId = SecurityUtils.getUserId();
+        Long userId = SecurityUtils.getUserId();
         List<Menu> menus = menuMapper.getMenusByUserId(userId);
         MenuTreeBuilder builder = new MenuTreeBuilder(menus);
         return builder.build();

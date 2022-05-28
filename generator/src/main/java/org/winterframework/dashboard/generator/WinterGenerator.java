@@ -20,7 +20,6 @@ public class WinterGenerator {
                              builder.author("Kyun") // 设置作者
                                     .enableSwagger() // 开启 swagger 模式
                                     .outputDir("C:\\temp"); // 指定输出目录
-
                          })
                          .packageConfig(builder -> {
                              builder.parent("org.winterframework.dashboard") // 设置父包名
