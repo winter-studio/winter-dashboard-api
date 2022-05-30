@@ -14,13 +14,11 @@ import org.winterframework.dashboard.base.mapper.UserMapper;
 import org.winterframework.dashboard.base.model.data.MenuTree;
 import org.winterframework.dashboard.base.model.request.CreateUserReq;
 import org.winterframework.dashboard.base.model.response.CreateUserRes;
-import org.winterframework.dashboard.base.utils.MenuTreeBuilder;
+import org.winterframework.dashboard.base.utils.UserMenuTreeBuilder;
 import org.winterframework.dashboard.security.utils.SecurityUtils;
 import org.winterframework.dashboard.web.exception.ApiException;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author Kyun
@@ -54,7 +52,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
     public List<MenuTree> getCurrentUserMenuTree() {
         Long userId = SecurityUtils.getUserId();
         List<Menu> menus = menuMapper.getMenusByUserId(userId);
-        MenuTreeBuilder builder = new MenuTreeBuilder(menus);
+        UserMenuTreeBuilder builder = new UserMenuTreeBuilder(menus);
         return builder.build();
     }
 

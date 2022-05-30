@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MenuTreeBuilder {
+public class UserMenuTreeBuilder {
 
     private final List<Menu> menus;
 
-    public MenuTreeBuilder(List<Menu> menus) {
+    public UserMenuTreeBuilder(List<Menu> menus) {
         this.menus = menus;
     }
 

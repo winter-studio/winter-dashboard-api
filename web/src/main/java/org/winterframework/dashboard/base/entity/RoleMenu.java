@@ -1,5 +1,6 @@
 package org.winterframework.dashboard.base.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,7 +9,7 @@ import lombok.Setter;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Kyun
@@ -20,8 +21,10 @@ import lombok.Setter;
 @ApiModel(value = "RoleMenu", description = "")
 public class RoleMenu {
 
+    @TableId
     private Integer roleId;
 
+    @TableId
     private Integer menuId;
 
 
