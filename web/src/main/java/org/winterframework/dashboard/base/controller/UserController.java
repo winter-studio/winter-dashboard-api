@@ -13,7 +13,7 @@ import org.winterframework.dashboard.base.model.data.MenuTree;
 import org.winterframework.dashboard.base.model.request.CreateUserReq;
 import org.winterframework.dashboard.base.model.response.CreateUserRes;
 import org.winterframework.dashboard.base.service.UserService;
-import org.winterframework.dashboard.web.model.APIResponse;
+import org.winterframework.dashboard.web.model.ApiRes;
 
 import java.util.List;
 
@@ -31,16 +31,16 @@ public class UserController {
 
     @ApiOperation("创建用户")
     @PostMapping
-    public APIResponse<CreateUserRes> createUser(@Validated @RequestBody CreateUserReq req) {
+    public ApiRes<CreateUserRes> createUser(@Validated @RequestBody CreateUserReq req) {
         CreateUserRes res = userService.createUser(req);
-        return res == null ? APIResponse.failure("创建用户失败") : APIResponse.success(res);
+        return res == null ? ApiRes.failure("创建用户失败") : ApiRes.success(res);
     }
 
     @ApiOperation("获取当前登录用户菜单列表")
     @GetMapping("/me/menus")
-    public APIResponse<List<MenuTree>> createUser() {
+    public ApiRes<List<MenuTree>> createUser() {
         List<MenuTree> res = userService.getCurrentUserMenuTree();
-        return res == null ? APIResponse.failure("查询菜单失败") : APIResponse.success(res);
+        return res == null ? ApiRes.failure("查询菜单失败") : ApiRes.success(res);
     }
 
 }
