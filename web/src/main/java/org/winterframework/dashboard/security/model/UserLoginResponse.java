@@ -1,13 +1,12 @@
 package org.winterframework.dashboard.security.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@ApiModel
+@Schema
 public record UserLoginResponse(
-        @ApiModelProperty("user ID") String userId,
-        @ApiModelProperty("username") String username,
-        @ApiModelProperty("accessToken") String accessToken,
-        @ApiModelProperty("refreshToken") String refreshToken
+        @Schema(description = "user ID") String userId,
+        @Schema(description = "username") String username,
+        @Schema(description = "accessToken") String accessToken,
+        @Schema(description = "refreshToken") String refreshToken
 ) {
 }

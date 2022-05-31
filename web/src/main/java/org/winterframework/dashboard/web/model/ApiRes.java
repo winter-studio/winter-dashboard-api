@@ -1,14 +1,20 @@
 package org.winterframework.dashboard.web.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Schema(description = "API返回结果")
 @Data
 @NoArgsConstructor
 public class ApiRes<T> {
+    @Schema(description = "状态码")
     private int code;
+    @Schema(description = "消息")
     private String message;
+    @Schema(description = "数据")
     private T data;
+    @Schema(description = "结果类型")
     private ApiResponseType type;
 
     public ApiRes(int code, String message, T data, ApiResponseType type) {
@@ -33,6 +39,7 @@ public class ApiRes<T> {
     public static <T> ApiRes<T> success(T data) {
         return success(ApiResponseCodes.OK, null, data);
     }
+
     public static <T> ApiRes<T> success(String message, T data) {
         return success(ApiResponseCodes.OK, message, data);
     }

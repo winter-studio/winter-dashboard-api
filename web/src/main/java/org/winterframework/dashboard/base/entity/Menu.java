@@ -3,8 +3,7 @@ package org.winterframework.dashboard.base.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,43 +17,43 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@ApiModel(value = "Menu", description = "")
+@Schema(name = "Menu", description = "")
 public class Menu {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty("父节点")
+    @Schema(description = "父节点")
     private Integer parentId;
 
-    @ApiModelProperty("路径")
+    @Schema(description = "路径")
     private String path;
 
-    @ApiModelProperty("标题")
+    @Schema(description = "标题")
     private String title;
 
-    @ApiModelProperty("图标")
+    @Schema(description = "图标")
     private String icon;
 
-    @ApiModelProperty("额外标识")
+    @Schema(description = "额外标识")
     private String extra;
 
-    @ApiModelProperty("页面组件/链接")
+    @Schema(description = "页面组件/链接")
     private String data;
 
-    @ApiModelProperty("组件类型(dir/view/link/iframe)")
+    @Schema(description = "组件类型(dir/view/link/iframe)")
     private String type;
 
-    @ApiModelProperty("是否隐藏")
+    @Schema(description = "是否隐藏")
     private Boolean hidden;
 
-    @ApiModelProperty("是否缓存")
+    @Schema(description = "是否缓存")
     private Boolean keepAlive;
 
-    @ApiModelProperty("是否可匿名访问")
+    @Schema(description = "是否可匿名访问")
     private Boolean permitAll;
 
-    @ApiModelProperty("排序(基于同级)")
+    @Schema(description = "排序(基于同级)")
     private Integer sort;
 
     @TableLogic

@@ -1,7 +1,7 @@
 package org.winterframework.dashboard.base.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,20 +18,20 @@ import java.util.List;
  * @author Kyun
  * @since 2022-05-26
  */
-@Api(tags = "菜单模块")
+@Tag(name = "菜单模块")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/menus")
 public class MenuController {
     private final MenuService menuService;
 
-    @ApiOperation("获取菜单树")
+    @Operation(summary = "获取菜单树")
     @GetMapping("/tree")
     public ApiRes<List<MenuTree>> getTree() {
         return ApiRes.success(menuService.getTree());
     }
 
-    @ApiOperation("获取菜单")
+    @Operation(summary = "获取菜单")
     @GetMapping("/{id}")
     public ApiRes<Menu> getById(@PathVariable Integer id) {
         return ApiRes.success(menuService.getById(id));

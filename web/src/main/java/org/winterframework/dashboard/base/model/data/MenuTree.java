@@ -2,8 +2,7 @@ package org.winterframework.dashboard.base.model.data;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,10 +16,10 @@ import java.util.List;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties({"sort", "parentId"})
-@ApiModel("菜单")
+@Schema(description = "菜单")
 public class MenuTree extends Menu implements Comparable<MenuTree> {
 
-    @ApiModelProperty("子节点")
+    @Schema(description = "子节点")
     private List<MenuTree> children = new ArrayList<>();
 
     public MenuTree(Menu menu) {

@@ -1,9 +1,7 @@
 package org.winterframework.dashboard.base.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,13 +16,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("user_role")
-@ApiModel(value = "UserRole", description = "")
+@Schema(name = "UserRole", description = "")
 public class UserRole {
 
-    @TableId
     private Long userId;
-    @TableId
     private Integer roleId;
-
 
 }

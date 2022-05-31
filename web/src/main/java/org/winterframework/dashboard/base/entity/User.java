@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import java.time.LocalDateTime;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -21,7 +21,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@ApiModel(value = "User", description = "用户")
+@Schema(name = "User", description = "用户")
 public class User {
 
     @TableId(value = "id", type = IdType.AUTO)

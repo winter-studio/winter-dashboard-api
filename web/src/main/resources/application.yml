@@ -12,22 +12,6 @@ spring:
   redis:
     host: localhost
     port: 6379
-
-knife4j:
-  enable: true
-  documents:
-    -
-      group: 1.0版本
-  setting:
-    language: zh-CN
-    enableSwaggerModels: true
-    enableDocumentManage: true
-    enableFooterCustom: true
-    footerCustomContent: Winter Dashboard
-    enableDebug: true
-    enableOpenApi: true
-    enableGroup: true
-    enableDynamicParameter: true
-    enableFooter: true
-  cors: false
-  production: false
+springdoc:
+  api-docs:
+    enabled: true

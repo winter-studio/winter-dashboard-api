@@ -2,14 +2,13 @@ package org.winterframework.dashboard.base.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Kyun
@@ -17,16 +16,16 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@ApiModel(value = "Role", description = "")
+@Schema(name = "Role", description = "")
 public class Role {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @ApiModelProperty("角色名称")
+    @Schema(description = "角色名称")
     private String name;
 
-    @ApiModelProperty("角色代码")
+    @Schema(description = "角色代码")
     private String code;
 
 

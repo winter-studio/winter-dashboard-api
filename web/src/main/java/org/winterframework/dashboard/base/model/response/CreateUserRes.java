@@ -1,9 +1,9 @@
 package org.winterframework.dashboard.base.model.response;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
 
-@ApiModel("创建用户响应")
-public record CreateUserRes(@ApiModelProperty("用户ID") Long id,
-                            @ApiModelProperty("用户名") String username) {
+@Schema(description = "创建用户响应")
+public record CreateUserRes(@Schema(description = "用户ID") Long id,
+                            @Schema(description = "用户名") String username) {
 }

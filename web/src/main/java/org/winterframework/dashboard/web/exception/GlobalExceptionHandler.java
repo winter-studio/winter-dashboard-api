@@ -1,6 +1,7 @@
 package org.winterframework.dashboard.web.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,6 +24,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ApiRes<Void> exceptionHandler(HttpServletRequest req, MethodArgumentNotValidException e) {
         return buildArgumentErrorResult(e);
+    }
+
+    @ExceptionHandler(value = HttpMessageNotReadableException.class)
+    public ApiRes<Void> exceptionHandler(HttpServletRequest req, HttpMessageNotReadableException e) {
+        return ApiRes.error(e.getMessage());
     }
 
     @ExceptionHandler(value = Exception.class)
