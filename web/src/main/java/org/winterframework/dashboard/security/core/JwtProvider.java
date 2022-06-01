@@ -25,13 +25,13 @@ public class JwtProvider {
 
     private final String rawSecretKey;
     private SecretKey key;
-    private final long validityInMilliseconds;
+    private final long expireInSeconds;
     private JwtParser jwtParser;
 
     public JwtProvider(@Value("${security.jwt.token.secret-key:'YouMustChangeThisSecretKey,OK?'}") String secretKey,
-                       @Value("${security.jwt.token.expire-length:3600000}") long validityInMilliseconds) {
+                       @Value("${security.jwt.token.expire-in:7200}") long expireInSeconds) {
         this.rawSecretKey = secretKey;
-        this.validityInMilliseconds = validityInMilliseconds;
+        this.expireInSeconds = expireInSeconds;
     }
 
     @PostConstruct
@@ -46,7 +46,7 @@ public class JwtProvider {
         claims.put("roles", roles);
 
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
+        Date validity = new Date(now.getTime() + (expireInSeconds * 1000));
 
         return Jwts.builder()
                    .setClaims(claims)
