@@ -7,6 +7,23 @@ import org.winterframework.dashboard.security.core.JwtUserDetails;
 
 @Slf4j
 public class SecurityUtils {
+
+    public static final int JWT_TOKEN_EXPIRED = 1;
+    public static final int JWT_TOKEN_INVALID = 2;
+    private final static ThreadLocal<Integer> authenticationState = new ThreadLocal<>();
+
+    public static void setAuthenticationState(int state) {
+        authenticationState.set(state);
+    }
+
+    public static int getAuthenticationState() {
+        return authenticationState.get() == null ? 0 : authenticationState.get();
+    }
+
+    public static void clearAuthenticationState() {
+        authenticationState.remove();
+    }
+
     public static Long getUserId() {
         final Authentication authentication = getAuthentication();
 

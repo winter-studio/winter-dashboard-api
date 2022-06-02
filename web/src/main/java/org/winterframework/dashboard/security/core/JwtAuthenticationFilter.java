@@ -2,12 +2,12 @@ package org.winterframework.dashboard.security.core;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.winterframework.dashboard.security.utils.SecurityUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,17 +24,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtProvider jwtProvider;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String jwt = resolveToken(httpServletRequest);
+        SecurityUtils.clearAuthenticationState();
+
+        String jwt = resolveToken(request);
         // validate and set jwt
-        Authentication authentication;
-        if (StringUtils.hasText(jwt) && (authentication = jwtProvider.applyToken(jwt)) != null) {
+        if (StringUtils.hasText(jwt)) {
+            Authentication authentication = jwtProvider.applyToken(jwt);
             // set current user
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
+        filterChain.doFilter(request, response);
     }
 
     public String resolveToken(HttpServletRequest req) {

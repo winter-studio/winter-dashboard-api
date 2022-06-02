@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.winterframework.dashboard.security.utils.SecurityUtils;
 
 import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;
@@ -46,7 +47,7 @@ public class JwtProvider {
         claims.put("roles", roles);
 
         Date now = new Date();
-        Date validity = new Date(now.getTime() + (expireInSeconds * 1000));
+        Date validity = new Date(now.getTime() + ( 1000));
 
         return Jwts.builder()
                    .setClaims(claims)
@@ -63,17 +64,18 @@ public class JwtProvider {
             Claims claims = claimsJws.getBody();
             return new JwtAuthenticationToken(claims);
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("Invalid JWT signature.");
             log.trace("Invalid JWT signature trace: {}", e.getMessage());
+            SecurityUtils.setAuthenticationState(SecurityUtils.JWT_TOKEN_INVALID);
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT token.");
             log.trace("Expired JWT token trace: {}", e.getMessage());
+            SecurityUtils.setAuthenticationState(SecurityUtils.JWT_TOKEN_EXPIRED);
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT token.");
             log.trace("Unsupported JWT token trace: {}", e.getMessage());
+            SecurityUtils.setAuthenticationState(SecurityUtils.JWT_TOKEN_INVALID);
         } catch (IllegalArgumentException e) {
-            log.info("JWT token compact of handler are invalid.");
             log.trace("JWT token compact of handler are invalid trace: {}", e.getMessage());
+            SecurityUtils.setAuthenticationState(SecurityUtils.JWT_TOKEN_INVALID);
         }
         return null;
     }

@@ -15,9 +15,9 @@ public class ApiRes<T> {
     @Schema(description = "数据")
     private T data;
     @Schema(description = "结果类型")
-    private ApiResponseType type;
+    private ApiResType type;
 
-    public ApiRes(int code, String message, T data, ApiResponseType type) {
+    public ApiRes(int code, String message, T data, ApiResType type) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -29,7 +29,7 @@ public class ApiRes<T> {
     }
 
     public static <T> ApiRes<T> success(String message) {
-        return success(ApiResponseCodes.OK, message);
+        return success(ApiResCodes.Ok.COMMON, message);
     }
 
     public static <T> ApiRes<T> success(int code, String message) {
@@ -37,15 +37,15 @@ public class ApiRes<T> {
     }
 
     public static <T> ApiRes<T> success(T data) {
-        return success(ApiResponseCodes.OK, null, data);
+        return success(ApiResCodes.Ok.COMMON, null, data);
     }
 
     public static <T> ApiRes<T> success(String message, T data) {
-        return success(ApiResponseCodes.OK, message, data);
+        return success(ApiResCodes.Ok.COMMON, message, data);
     }
 
     public static <T> ApiRes<T> success(int code, String message, T data) {
-        return new ApiRes<>(code, message, data, ApiResponseType.SUCCESS);
+        return new ApiRes<>(code, message, data, ApiResType.SUCCESS);
     }
 
     public static <T> ApiRes<T> failure() {
@@ -53,7 +53,7 @@ public class ApiRes<T> {
     }
 
     public static <T> ApiRes<T> failure(String message) {
-        return failure(ApiResponseCodes.FAILED, message);
+        return failure(ApiResCodes.Failure.COMMON, message);
     }
 
     public static <T> ApiRes<T> failure(int code, String message) {
@@ -61,11 +61,11 @@ public class ApiRes<T> {
     }
 
     public static <T> ApiRes<T> failure(String message, T data) {
-        return failure(ApiResponseCodes.FAILED, message, data);
+        return failure(ApiResCodes.Failure.COMMON, message, data);
     }
 
     public static <T> ApiRes<T> failure(int code, String message, T data) {
-        return new ApiRes<>(code, message, data, ApiResponseType.FAILURE);
+        return new ApiRes<>(code, message, data, ApiResType.FAILURE);
     }
 
 
@@ -74,7 +74,7 @@ public class ApiRes<T> {
     }
 
     public static <T> ApiRes<T> error(String message) {
-        return error(ApiResponseCodes.INTERNAL_ERROR, message);
+        return error(ApiResCodes.Error.COMMON, message);
     }
 
     public static <T> ApiRes<T> error(int code, String message) {
@@ -82,10 +82,10 @@ public class ApiRes<T> {
     }
 
     public static <T> ApiRes<T> error(String message, T data) {
-        return error(ApiResponseCodes.INTERNAL_ERROR, message, data);
+        return error(ApiResCodes.Error.COMMON, message, data);
     }
 
     public static <T> ApiRes<T> error(int code, String message, T data) {
-        return new ApiRes<>(code, message, data, ApiResponseType.ERROR);
+        return new ApiRes<>(code, message, data, ApiResType.ERROR);
     }
 }
