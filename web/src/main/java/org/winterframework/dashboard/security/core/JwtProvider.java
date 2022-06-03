@@ -47,7 +47,7 @@ public class JwtProvider {
         claims.put("roles", roles);
 
         Date now = new Date();
-        Date validity = new Date(now.getTime() + ( 1000));
+        Date validity = new Date(now.getTime() + (expireInSeconds * 1000));
 
         return Jwts.builder()
                    .setClaims(claims)
