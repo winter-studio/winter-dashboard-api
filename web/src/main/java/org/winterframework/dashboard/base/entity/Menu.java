@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * <p>
  *
@@ -27,21 +29,24 @@ public class Menu {
     private Integer parentId;
 
     @Schema(description = "路径")
+    @NotEmpty(message = "路径不能为空")
     private String path;
 
     @Schema(description = "标题")
+    @NotEmpty(message = "标题不能为空")
     private String title;
 
     @Schema(description = "图标")
     private String icon;
 
     @Schema(description = "额外标识")
-    private String extra;
+    private String tags;
 
     @Schema(description = "页面组件/链接")
     private String data;
 
-    @Schema(description = "组件类型(dir/view/link/iframe)")
+    @Schema(description = "类型(dir/view/link/iframe)")
+    @NotEmpty(message = "类型不能为空")
     private String type;
 
     @Schema(description = "是否隐藏")
@@ -49,9 +54,6 @@ public class Menu {
 
     @Schema(description = "是否缓存")
     private Boolean keepAlive;
-
-    @Schema(description = "是否可匿名访问")
-    private Boolean permitAll;
 
     @Schema(description = "排序(基于同级)")
     private Integer sort;

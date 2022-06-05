@@ -1,8 +1,8 @@
 package org.winterframework.dashboard.base.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.winterframework.dashboard.base.entity.Menu;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
@@ -13,4 +13,6 @@ import java.util.List;
 public interface MenuMapper extends BaseMapper<Menu> {
 
     List<Menu> getMenusByUserId(@Param("userId") Long userId);
+
+    void updateSortToTheEnd(@Param("parentId") Integer parentId);
 }

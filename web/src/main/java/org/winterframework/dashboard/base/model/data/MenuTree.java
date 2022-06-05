@@ -28,12 +28,11 @@ public class MenuTree extends Menu implements Comparable<MenuTree> {
         this.setPath(menu.getPath());
         this.setTitle(menu.getTitle());
         this.setIcon(menu.getIcon());
-        this.setExtra(menu.getExtra());
+        this.setTags(menu.getTags());
         this.setData(menu.getData());
         this.setType(menu.getType());
         this.setHidden(menu.getHidden());
         this.setKeepAlive(menu.getKeepAlive());
-        this.setPermitAll(menu.getPermitAll());
         this.setSort(menu.getSort());
     }
 

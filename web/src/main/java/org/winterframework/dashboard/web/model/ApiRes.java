@@ -1,5 +1,6 @@
 package org.winterframework.dashboard.web.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,9 @@ public class ApiRes<T> {
     private T data;
     @Schema(description = "结果类型")
     private ApiResType type;
+
+    @JsonIgnore
+    private ApiResBuilder<T> apiResBuilder;
 
     public ApiRes(int code, String message, T data, ApiResType type) {
         this.code = code;
@@ -88,4 +92,9 @@ public class ApiRes<T> {
     public static <T> ApiRes<T> error(int code, String message, T data) {
         return new ApiRes<>(code, message, data, ApiResType.ERROR);
     }
+
+    public static <T> ApiResBuilder<T> baseOn(boolean succeeded) {
+        return new ApiResBuilder<T>(succeeded);
+    }
+
 }
