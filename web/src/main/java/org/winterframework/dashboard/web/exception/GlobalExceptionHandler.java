@@ -16,9 +16,9 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value = ApiException.class)
-    public ApiRes<Void> exceptionHandler(HttpServletRequest req, ApiException e) {
-        return ApiRes.failure(e.getMessage());
+    @ExceptionHandler(value = ApiFailureException.class)
+    public ApiRes<Void> exceptionHandler(HttpServletRequest req, ApiFailureException e) {
+        return ApiRes.failure(e.getCode(), e.getMessage());
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)

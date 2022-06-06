@@ -14,5 +14,7 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
     List<Menu> getMenusByUserId(@Param("userId") Long userId);
 
-    void updateSortToTheEnd(@Param("parentId") Integer parentId);
+    Integer getMaxSort(@Param("parentId") Integer parentId);
+
+    boolean hasChildren(Integer id);
 }

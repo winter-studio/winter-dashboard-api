@@ -9,7 +9,7 @@ import org.winterframework.dashboard.base.service.UserService;
 import org.winterframework.dashboard.security.core.JwtProvider;
 import org.winterframework.dashboard.security.model.UserLoginRequest;
 import org.winterframework.dashboard.security.model.UserLoginResponse;
-import org.winterframework.dashboard.web.exception.ApiException;
+import org.winterframework.dashboard.web.exception.ApiFailureException;
 
 import java.util.Collections;
 
@@ -24,11 +24,11 @@ public class AuthenticationService {
     public UserLoginResponse authenticate(UserLoginRequest userLoginRequest) {
         User user = userService.getByUsername(userLoginRequest.username());
         if (user == null) {
-            throw new ApiException("用户不存在");
+            throw new ApiFailureException("用户不存在");
         }
 
         if (!passwordEncoder.matches(userLoginRequest.password(), user.getPassword())) {
-            throw new ApiException("密码错误");
+            throw new ApiFailureException("密码错误");
         }
 
         String token = jwtProvider.createToken(user.getId().toString(), Collections.singletonList("ADMIN"));

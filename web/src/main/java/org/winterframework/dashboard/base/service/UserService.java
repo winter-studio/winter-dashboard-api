@@ -16,7 +16,7 @@ import org.winterframework.dashboard.base.model.request.CreateUserReq;
 import org.winterframework.dashboard.base.model.response.CreateUserRes;
 import org.winterframework.dashboard.base.utils.UserMenuTreeBuilder;
 import org.winterframework.dashboard.security.utils.SecurityUtils;
-import org.winterframework.dashboard.web.exception.ApiException;
+import org.winterframework.dashboard.web.exception.ApiFailureException;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         try {
             saved = this.save(user);
         } catch (Exception e) {
-            throw new ApiException("用户名已存在", e);
+            throw new ApiFailureException("用户名已存在", e);
         }
         return saved ? new CreateUserRes(user.getId(), user.getUsername()) : null;
     }
