@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.winterframework.dashboard.base.entity.Menu;
 import org.winterframework.dashboard.base.model.data.MenuTree;
+import org.winterframework.dashboard.base.model.request.MoveMenuRequest;
 import org.winterframework.dashboard.base.service.MenuService;
 import org.winterframework.dashboard.web.model.ApiRes;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -64,12 +67,32 @@ public class MenuController {
     }
 
     @Operation(summary = "批量删除菜单")
+    @DeleteMapping("/{id}")
+    public ApiRes<Boolean> deleteMenu(@PathVariable Integer id) {
+        boolean succeeded = menuService.deleteMenus(Collections.singletonList(id));
+        return ApiRes.<Boolean>baseOn(succeeded)
+                     .successThen().message("删除成功")
+                     .failureThen().message("删除失败")
+                     .get();
+    }
+
+    @Operation(summary = "批量删除菜单")
     @DeleteMapping
     public ApiRes<Boolean> deleteMenus(@RequestBody Map<String,List<Integer>> body) {
         boolean succeeded = menuService.deleteMenus(body.get("ids"));
         return ApiRes.<Boolean>baseOn(succeeded)
                      .successThen().message("删除成功")
                      .failureThen().message("删除失败")
+                     .get();
+    }
+
+    @Operation(summary = "移动菜单")
+    @PutMapping("/{id}/position")
+    public ApiRes<Boolean> moveMenu(@PathVariable Integer id, @RequestBody MoveMenuRequest request) {
+        boolean succeeded = menuService.moveMenu(id, request);
+        return ApiRes.<Boolean>baseOn(succeeded)
+                     .successThen().message("移动成功")
+                     .failureThen().message("移动失败")
                      .get();
     }
 

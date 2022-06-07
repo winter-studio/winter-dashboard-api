@@ -1,11 +1,14 @@
 package org.winterframework.dashboard.base.service;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.winterframework.dashboard.base.entity.Menu;
 import org.winterframework.dashboard.base.mapper.MenuMapper;
 import org.winterframework.dashboard.base.model.data.MenuTree;
+import org.winterframework.dashboard.base.model.request.MoveMenuRequest;
 import org.winterframework.dashboard.base.utils.UserMenuTreeBuilder;
 import org.winterframework.dashboard.web.exception.ApiFailureException;
 
@@ -25,7 +28,7 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements IServi
 
     public boolean addMenu(Menu menu) {
         // get the max sort below the parent menu
-        Integer maxSort = this.baseMapper.getMaxSort(menu.getParentId());
+        Integer maxSort = this.baseMapper.getMaxSortInDirectory(menu.getParentId());
         menu.setSort(maxSort + 1);
         return this.save(menu);
     }
@@ -38,12 +41,52 @@ public class MenuService extends ServiceImpl<MenuMapper, Menu> implements IServi
     public boolean deleteMenus(List<Integer> ids) {
         // check if the menu has children
         for (Integer id : ids) {
-            if (this.baseMapper.hasChildren(id)) {
+            if (this.hasChildren(id)) {
                 Menu byId = this.getById(id);
                 String title = byId.getTitle();
                 throw new ApiFailureException(String.format("菜单【%s】下有子菜单，不能删除，请先移动或删除子菜单", title));
             }
         }
         return this.removeBatchByIds(ids);
+    }
+
+    public boolean hasChildren(Integer id) {
+        return this.count(Wrappers.<Menu>lambdaQuery().eq(Menu::getParentId, id)) > 0;
+    }
+
+    @Transactional
+    public boolean moveMenu(Integer target, MoveMenuRequest request) {
+        // get the target menu
+        Menu targetMenu = this.getById(target);
+        if (targetMenu == null) {
+            throw new ApiFailureException("目标菜单不存在");
+        }
+
+        // get the relative menu
+        Integer relative = request.relative();
+        Menu relativeMenu = this.getById(relative);
+        if (relativeMenu == null) {
+            throw new ApiFailureException("相对菜单不存在");
+        }
+
+
+        if (request.position() == MoveMenuRequest.Position.INSIDE) {
+            // move the menu to into the relative menu
+            Integer maxSort = this.baseMapper.getMaxSortInDirectory(relative);
+            targetMenu.setParentId(relative);
+            targetMenu.setSort(maxSort + 1);
+        } else {
+            boolean moveWithRelativeMenu = request.position() == MoveMenuRequest.Position.BEFORE;
+
+
+            // get the same level menus of the relative menu
+            this.baseMapper.moveEachMenuDownAfterRelative(relativeMenu.getParentId(), relativeMenu.getSort(),
+                    moveWithRelativeMenu);
+
+            // insert the target menu after/before the relative menu
+            targetMenu.setParentId(relativeMenu.getParentId());
+            targetMenu.setSort(relativeMenu.getSort() + (moveWithRelativeMenu ? 0 : 1));
+        }
+        return this.updateById(targetMenu);
     }
 }

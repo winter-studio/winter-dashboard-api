@@ -14,7 +14,8 @@ public interface MenuMapper extends BaseMapper<Menu> {
 
     List<Menu> getMenusByUserId(@Param("userId") Long userId);
 
-    Integer getMaxSort(@Param("parentId") Integer parentId);
+    Integer getMaxSortInDirectory(@Param("parentId") Integer parentId);
 
-    boolean hasChildren(Integer id);
+    int moveEachMenuDownAfterRelative(@Param("parentId") Integer parentId, @Param("sort") Integer sort,
+                                      @Param("moveWithRelativeMenu") boolean moveWithRelativeMenu);
 }

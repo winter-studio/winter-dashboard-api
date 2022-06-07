@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.winterframework.dashboard.base.mapper.MenuMapper">
+    <update id="moveEachMenuDownAfterRelative">
+        UPDATE
+            menu
+        SET
+            sort = menu.sort + 1
+        <where>
+            <choose>
+                <when test="parentId == null">
+                    and parent_id IS NULL
+                </when>
+                <otherwise>
+                    and parent_id = #{parentId}
+                </otherwise>
+            </choose>
+
+            <choose>
+                <when test="moveWithRelativeMenu">
+                    and sort >= #{sort}
+                </when>
+                <otherwise>
+                    and sort > #{sort}
+                </otherwise>
+            </choose>
+        </where>
+    </update>
     <select id="getMenusByUserId" resultType="org.winterframework.dashboard.base.entity.Menu">
         SELECT *
         FROM menu
@@ -9,7 +34,7 @@
                      WHERE role_id IN (SELECT role_id FROM user_role WHERE user_id = #{userId}))
     </select>
 
-    <select id="getMaxSort" resultType="java.lang.Integer">
+    <select id="getMaxSortInDirectory" resultType="java.lang.Integer">
         SELECT ifnull(MAX(sort), 0) AS new_sort FROM menu b
         <choose>
             <when test="parentId == null">
@@ -19,10 +44,5 @@
                 WHERE b.parent_id = #{parentId}
             </otherwise>
         </choose>
-    </select>
-
-    <select id="hasChildren" resultType="java.lang.Boolean">
-        SELECT count(*) > 0 AS has_children FROM menu b
-        WHERE b.parent_id = #{parentId}
     </select>
 </mapper>
