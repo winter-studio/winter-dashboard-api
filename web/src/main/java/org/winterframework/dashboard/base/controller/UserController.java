@@ -33,14 +33,18 @@ public class UserController {
     @PostMapping
     public ApiRes<CreateUserRes> createUser(@Validated @RequestBody CreateUserReq req) {
         CreateUserRes res = userService.createUser(req);
-        return res == null ? ApiRes.failure("创建用户失败") : ApiRes.success(res);
+        return ApiRes.<CreateUserRes>baseOn(res == null)
+                     .successThen().data(res)
+                     .failureThen().message("创建用户失败");
     }
 
     @Operation(summary = "获取当前登录用户菜单列表")
     @GetMapping("/me/menus")
     public ApiRes<List<MenuTree>> createUser() {
         List<MenuTree> res = userService.getCurrentUserMenuTree();
-        return res == null ? ApiRes.failure("查询菜单失败") : ApiRes.success(res);
+        return ApiRes.<List<MenuTree>>baseOn(res == null)
+                     .successThen().data(res)
+                     .failureThen().message("查询菜单失败");
     }
 
 }

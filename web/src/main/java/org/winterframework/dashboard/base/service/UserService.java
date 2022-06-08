@@ -11,6 +11,7 @@ import org.winterframework.dashboard.base.entity.Menu;
 import org.winterframework.dashboard.base.entity.User;
 import org.winterframework.dashboard.base.mapper.MenuMapper;
 import org.winterframework.dashboard.base.mapper.UserMapper;
+import org.winterframework.dashboard.base.mapper.UserRoleMapper;
 import org.winterframework.dashboard.base.model.data.MenuTree;
 import org.winterframework.dashboard.base.model.request.CreateUserReq;
 import org.winterframework.dashboard.base.model.response.CreateUserRes;
@@ -30,6 +31,8 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
 
     private final PasswordEncoder passwordEncoder;
     private final MenuMapper menuMapper;
+
+    private final UserRoleMapper userRoleMapper;
 
     public CreateUserRes createUser(CreateUserReq req) {
         User user = new User();
@@ -56,4 +59,7 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         return builder.build();
     }
 
+    public List<String> getUserRoles(String userId) {
+        return userRoleMapper.getUserRoles(userId);
+    }
 }

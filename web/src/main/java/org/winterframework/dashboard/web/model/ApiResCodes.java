@@ -11,6 +11,7 @@ public final class ApiResCodes {
         public static final int JWT_EXPIRED = 20001;
         public static final int JWT_INVALID = 20002;
         public static final int SECURITY = 20003;
+        public static final int JWT_REFRESH_TOKEN_INVALID = 20004;
 
 
     }

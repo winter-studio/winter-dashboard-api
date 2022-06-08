@@ -82,8 +82,7 @@ public class MenuController {
         boolean succeeded = menuService.deleteMenus(body.get("ids"));
         return ApiRes.<Boolean>baseOn(succeeded)
                      .successThen().message("删除成功")
-                     .failureThen().message("删除失败")
-                     .get();
+                     .failureThen().message("删除失败");
     }
 
     @Operation(summary = "移动菜单")
@@ -92,8 +91,7 @@ public class MenuController {
         boolean succeeded = menuService.moveMenu(id, request);
         return ApiRes.<Boolean>baseOn(succeeded)
                      .successThen().message("移动成功")
-                     .failureThen().message("移动失败")
-                     .get();
+                     .failureThen().message("移动失败");
     }
 
 }

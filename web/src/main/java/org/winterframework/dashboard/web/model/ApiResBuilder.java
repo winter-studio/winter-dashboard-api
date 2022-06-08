@@ -1,9 +1,12 @@
 package org.winterframework.dashboard.web.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.winterframework.dashboard.web.serializer.ApiResBuilderSerializer;
 
-public class ApiResBuilder<T> {
+@JsonSerialize(using = ApiResBuilderSerializer.class)
+public class ApiResBuilder<T> extends ApiRes<T> {
     private final boolean succeeded;
     private final ApiResData<T> whenSuccess = new ApiResData<>(ApiResCodes.Ok.COMMON, "请求成功", null);
     private final ApiResData<T> whenFailure = new ApiResData<>(ApiResCodes.Failure.COMMON, "请求失败", null);

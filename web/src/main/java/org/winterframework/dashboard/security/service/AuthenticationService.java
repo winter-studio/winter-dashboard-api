@@ -10,8 +10,9 @@ import org.winterframework.dashboard.security.core.JwtProvider;
 import org.winterframework.dashboard.security.model.UserLoginRequest;
 import org.winterframework.dashboard.security.model.UserLoginResponse;
 import org.winterframework.dashboard.web.exception.ApiFailureException;
+import org.winterframework.dashboard.web.model.ApiResCodes;
 
-import java.util.Collections;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,27 @@ public class AuthenticationService {
             throw new ApiFailureException("密码错误");
         }
 
-        String token = jwtProvider.createToken(user.getId().toString(), Collections.singletonList("ADMIN"));
-        return new UserLoginResponse(userLoginRequest.username(), userLoginRequest.username(), token, null);
+        String token = createAccessToken(user.getId().toString());
+        // refresh token
+        String refreshToken = createRefreshToken(user.getId().toString());
+        return new UserLoginResponse(userLoginRequest.username(), userLoginRequest.username(), token, refreshToken);
+    }
+
+    private String createRefreshToken(String userId) {
+        String refreshTokenId = UUID.randomUUID().toString().replace("-", "");
+        return jwtProvider.createRefreshToken(refreshTokenId, userId);
+    }
+
+    private String createAccessToken(String userId) {
+        String tokenId = UUID.randomUUID().toString().replace("-", "");
+        return jwtProvider.createToken(tokenId, userId, userService.getUserRoles(userId));
+    }
+
+    public String refreshToken(String refreshToken) {
+        String userId = jwtProvider.validateRefreshToken(refreshToken);
+        if (userId == null) {
+            throw new ApiFailureException(ApiResCodes.Failure.JWT_REFRESH_TOKEN_INVALID, "refresh token is invalid");
+        }
+        return createAccessToken(userId);
     }
 }

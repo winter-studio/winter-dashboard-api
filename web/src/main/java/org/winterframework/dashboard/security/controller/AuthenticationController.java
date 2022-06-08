@@ -6,7 +6,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.winterframework.dashboard.security.model.UserLoginRequest;
@@ -30,4 +32,14 @@ public class AuthenticationController {
 
         return ApiRes.success(res);
     }
+
+    @Operation(summary = "刷新token")
+    @PutMapping("/token")
+    public ApiRes<String> refreshToken(@RequestHeader("x-refresh-token") String refreshToken) {
+
+        String token = authenticateService.refreshToken(refreshToken);
+
+        return ApiRes.success("刷新成功", token);
+    }
+
 }
