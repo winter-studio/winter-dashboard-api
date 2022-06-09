@@ -1,8 +1,11 @@
 package org.winterframework.dashboard.security.service;
 
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.winterframework.dashboard.base.entity.User;
@@ -10,10 +13,17 @@ import org.winterframework.dashboard.base.service.UserService;
 import org.winterframework.dashboard.security.core.JwtProvider;
 import org.winterframework.dashboard.security.model.UserLoginRequest;
 import org.winterframework.dashboard.security.model.UserLoginResponse;
+import org.winterframework.dashboard.security.model.UserLogoutRequest;
+import org.winterframework.dashboard.security.utils.SecurityUtils;
 import org.winterframework.dashboard.web.exception.ApiFailureException;
 import org.winterframework.dashboard.web.model.ApiResCodes;
 
+import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import static org.winterframework.dashboard.security.core.JwtProvider.TOKEN_TYPE_ACCESS;
+import static org.winterframework.dashboard.security.core.JwtProvider.TOKEN_TYPE_REFRESH;
 
 @Slf4j
 @Service
@@ -59,4 +69,19 @@ public class AuthenticationService {
         }
         return createAccessToken(userId);
     }
+
+    public void revokeToken(UserLogoutRequest userLoginRequest) {
+        if (userLoginRequest.refreshToken() != null) {
+            // revoke refresh token
+            Claims claims = jwtProvider.getClaims(userLoginRequest.refreshToken());
+            jwtProvider.revokeToken(TOKEN_TYPE_REFRESH, claims);
+        }
+        if (SecurityUtils.isAuthenticated()) {
+            // revoke access token
+            Claims claims = SecurityUtils.getClimes();
+            jwtProvider.revokeToken(TOKEN_TYPE_ACCESS, claims);
+        }
+    }
+
+
 }

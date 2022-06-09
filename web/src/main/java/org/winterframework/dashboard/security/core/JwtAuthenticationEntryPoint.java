@@ -28,6 +28,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         switch (SecurityUtils.getAuthenticationState()) {
             case SecurityUtils.JWT_TOKEN_EXPIRED -> msg = buildMessage(ApiResCodes.Failure.JWT_EXPIRED, "凭证过期");
             case SecurityUtils.JWT_TOKEN_INVALID -> msg = buildMessage(ApiResCodes.Failure.JWT_INVALID, "凭证无效");
+            case SecurityUtils.JWT_TOKEN_REVOKED -> msg = buildMessage(ApiResCodes.Failure.JWT_REVOKED, "凭证已注销");
             default -> msg = buildMessage(ApiResCodes.Failure.SECURITY, "Unauthorized");
         }
 

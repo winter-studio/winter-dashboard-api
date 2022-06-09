@@ -8,10 +8,11 @@ public final class ApiResCodes {
 
     public static class Failure {
         public static final int COMMON = 20000;
-        public static final int JWT_EXPIRED = 20001;
-        public static final int JWT_INVALID = 20002;
-        public static final int SECURITY = 20003;
-        public static final int JWT_REFRESH_TOKEN_INVALID = 20004;
+        public static final int JWT_EXPIRED = COMMON + 1;
+        public static final int JWT_INVALID = COMMON + 2;
+        public static final int JWT_REVOKED = COMMON + 3;
+        public static final int SECURITY = COMMON + 4;
+        public static final int JWT_REFRESH_TOKEN_INVALID = COMMON + 5;
 
 
     }

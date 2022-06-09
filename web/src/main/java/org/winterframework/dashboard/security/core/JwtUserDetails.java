@@ -56,4 +56,8 @@ public class JwtUserDetails implements UserDetails {
     public boolean isEnabled() {
         return false;
     }
+
+    public Claims getClaims() {
+        return claims;
+    }
 }
