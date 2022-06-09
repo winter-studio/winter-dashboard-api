@@ -48,9 +48,9 @@ public class Menu {
     @Schema(description = "页面组件/链接")
     private String data;
 
-    @Schema(description = "类型(dir/view/link/iframe)")
+    @Schema(description = "类型(1:dir/2:view/3:link/4:iframe)")
     @NotEmpty(message = "类型不能为空")
-    private String type;
+    private Short type;
 
     @Schema(description = "是否隐藏")
     private Boolean hidden;
