@@ -5,18 +5,20 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Schema(description = "API返回结果")
 @Data
 @NoArgsConstructor
-public class ApiRes<T> {
+public class ApiRes<T> implements Serializable {
     @Schema(description = "状态码")
-    private int code;
+    protected int code;
     @Schema(description = "消息")
-    private String message;
+    protected String message;
     @Schema(description = "数据")
-    private T data;
+    protected T data;
     @Schema(description = "结果类型")
-    private ApiResType type;
+    protected ApiResType type;
 
     @JsonIgnore
     private ApiResBuilder<T> apiResBuilder;

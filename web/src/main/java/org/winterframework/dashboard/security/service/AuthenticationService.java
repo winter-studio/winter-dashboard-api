@@ -2,6 +2,7 @@ package org.winterframework.dashboard.security.service;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.winterframework.dashboard.base.entity.User;
@@ -14,6 +15,7 @@ import org.winterframework.dashboard.web.model.ApiResCodes;
 
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -35,7 +37,8 @@ public class AuthenticationService {
         String token = createAccessToken(user.getId().toString());
         // refresh token
         String refreshToken = createRefreshToken(user.getId().toString());
-        return new UserLoginResponse(userLoginRequest.username(), userLoginRequest.username(), token, refreshToken);
+        return new UserLoginResponse(userLoginRequest.username(), userLoginRequest.username(), token, refreshToken,
+                jwtProvider.getRefreshTokenExpireInSeconds());
     }
 
     private String createRefreshToken(String userId) {
@@ -49,6 +52,7 @@ public class AuthenticationService {
     }
 
     public String refreshToken(String refreshToken) {
+        log.info("refreshToken: {}", refreshToken);
         String userId = jwtProvider.validateRefreshToken(refreshToken);
         if (userId == null) {
             throw new ApiFailureException(ApiResCodes.Failure.JWT_REFRESH_TOKEN_INVALID, "refresh token is invalid");

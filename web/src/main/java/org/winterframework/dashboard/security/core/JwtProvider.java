@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.winterframework.dashboard.security.utils.SecurityUtils;
-import org.winterframework.dashboard.web.exception.ApiFailureException;
 
 import javax.annotation.PostConstruct;
 import javax.crypto.SecretKey;
@@ -28,16 +27,20 @@ public class JwtProvider {
 
     private final String rawSecretKey;
     private SecretKey key;
-    private final long expireInSeconds;
-    private final long refreshTokenExpireInSeconds;
+    private final int expireInSeconds;
+    private final int refreshTokenExpireInSeconds;
     private JwtParser jwtParser;
 
     public JwtProvider(@Value("${security.jwt.token.secret-key:'YouMustChangeThisSecretKey,OK?'}") String secretKey,
-                       @Value("${security.jwt.token.expire-in:1800}") long expireInSeconds,
-                       @Value("${security.jwt.refresh-token.expire-in:2592000}") long refreshTokenExpireInSeconds) {
+                       @Value("${security.jwt.token.expire-in:1800}") int expireInSeconds,
+                       @Value("${security.jwt.refresh-token.expire-in:2592000}") int refreshTokenExpireInSeconds) {
         this.rawSecretKey = secretKey;
         this.expireInSeconds = expireInSeconds;
         this.refreshTokenExpireInSeconds = refreshTokenExpireInSeconds;
+    }
+
+    public int getRefreshTokenExpireInSeconds() {
+        return refreshTokenExpireInSeconds;
     }
 
     @PostConstruct
@@ -51,7 +54,7 @@ public class JwtProvider {
         Claims claims = Jwts.claims().setSubject(userId);
         claims.put("roles", roles);
         Date now = new Date();
-        Date validity = new Date(now.getTime() + (expireInSeconds * 1000));
+        Date validity = new Date(now.getTime() + (expireInSeconds * 1000L));
         return Jwts.builder()
                    .setId(tokenId)
                    .setClaims(claims)
@@ -64,7 +67,7 @@ public class JwtProvider {
     public String createRefreshToken(String tokenId, String userId) {
         Claims claims = Jwts.claims().setSubject(userId);
         Date now = new Date();
-        Date validity = new Date(now.getTime() + (refreshTokenExpireInSeconds * 1000));
+        Date validity = new Date(now.getTime() + (refreshTokenExpireInSeconds * 1000L));
         return Jwts.builder()
                    .setId(tokenId)
                    .setClaims(claims)

@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.winterframework.dashboard.web.serializer.ApiResBuilderSerializer;
 
-@JsonSerialize(using = ApiResBuilderSerializer.class)
 public class ApiResBuilder<T> extends ApiRes<T> {
     private final boolean succeeded;
     private final ApiResData<T> whenSuccess = new ApiResData<>(ApiResCodes.Ok.COMMON, "请求成功", null);

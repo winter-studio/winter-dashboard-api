@@ -42,7 +42,7 @@ public class UserController {
     @GetMapping("/me/menus")
     public ApiRes<List<MenuTree>> createUser() {
         List<MenuTree> res = userService.getCurrentUserMenuTree();
-        return ApiRes.<List<MenuTree>>baseOn(res == null)
+        return ApiRes.<List<MenuTree>>baseOn(res != null)
                      .successThen().data(res)
                      .failureThen().message("查询菜单失败");
     }
