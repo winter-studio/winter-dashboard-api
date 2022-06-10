@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.filter.CorsFilter;
 import org.winterframework.dashboard.security.core.JwtAccessDeniedHandler;
 import org.winterframework.dashboard.security.core.JwtAuthenticationEntryPoint;
 import org.winterframework.dashboard.security.core.JwtAuthenticationFilter;
@@ -48,13 +47,13 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, CorsFilter corsFilter,
+    public SecurityFilterChain filterChain(HttpSecurity http,
                                            JwtAuthenticationEntryPoint authenticationErrorHandler,
                                            JwtAccessDeniedHandler accessDeniedHandler,
                                            JwtAuthenticationFilter jwtAuthenticationFilter,
                                            List<PermitAllRequestMatcher> requestMatchers) throws Exception {
-        http.csrf().disable()
-            .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+        http.csrf().and().cors().disable()
+            // .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .exceptionHandling().authenticationEntryPoint(authenticationErrorHandler)
             .accessDeniedHandler(accessDeniedHandler)
