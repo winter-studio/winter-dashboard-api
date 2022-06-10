@@ -1,6 +1,6 @@
 spring:
   profiles:
-    default: dev
+    default: ${SPRING_PROFILE:dev}
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher #开发环境打开，兼容springfox
@@ -12,9 +12,4 @@ spring:
   redis:
     host: localhost
     port: 6379
-springdoc:
-  api-docs:
-    enabled: true
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
