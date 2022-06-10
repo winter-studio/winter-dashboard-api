@@ -6,4 +6,4 @@ ARG JAR_FILE
 ADD target/${JAR_FILE} /usr/share/service.jar
 
 EXPOSE 8080
-ENTRYPOINT ["/usr/bin/java", "-jar", "/usr/share/service.jar"]
+ENTRYPOINT ["java", "-jar", "/usr/share/service.jar"]
