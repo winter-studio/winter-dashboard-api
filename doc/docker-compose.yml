@@ -55,6 +55,8 @@ services:
       - MYSQL_PASSWORD=123456
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+    networks:
+      - backend
 
 networks:
   backend:
