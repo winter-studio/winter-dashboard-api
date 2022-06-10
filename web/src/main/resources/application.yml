@@ -1,6 +1,7 @@
 spring:
   profiles:
-    default: ${SPRING_PROFILE:dev}
+    default: dev
+    active: ${SPRING_PROFILE:dev}
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:winter-dashboard}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true

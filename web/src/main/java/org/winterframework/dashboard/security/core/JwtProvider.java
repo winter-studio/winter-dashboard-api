@@ -61,12 +61,11 @@ public class JwtProvider {
     }
 
     public String createToken(String tokenId, String userId, List<String> roles) {
-        Claims claims = Jwts.claims().setSubject(userId);
+        Claims claims = Jwts.claims().setId(tokenId).setSubject(userId);
         claims.put("roles", roles);
         Date now = new Date();
         Date validity = new Date(now.getTime() + (expireInSeconds * 1000L));
         return Jwts.builder()
-                   .setId(tokenId)
                    .setClaims(claims)
                    .setIssuedAt(now)
                    .setExpiration(validity)
@@ -75,11 +74,10 @@ public class JwtProvider {
     }
 
     public String createRefreshToken(String tokenId, String userId) {
-        Claims claims = Jwts.claims().setSubject(userId);
+        Claims claims = Jwts.claims().setId(tokenId).setSubject(userId);
         Date now = new Date();
         Date validity = new Date(now.getTime() + (refreshTokenExpireInSeconds * 1000L));
         return Jwts.builder()
-                   .setId(tokenId)
                    .setClaims(claims)
                    .setIssuedAt(now)
                    .setExpiration(validity)
@@ -122,8 +120,10 @@ public class JwtProvider {
             return new JwtAuthenticationToken(claims);
         } catch (UnsupportedJwtException | SecurityException | MalformedJwtException | IllegalArgumentException e) {
             SecurityUtils.setAuthenticationState(SecurityUtils.JWT_TOKEN_INVALID);
+            log.error("Invalid JWT token", e);
         } catch (ExpiredJwtException e) {
             SecurityUtils.setAuthenticationState(SecurityUtils.JWT_TOKEN_EXPIRED);
+            log.error("Token expired", e);
         }
         return null;
     }
@@ -135,13 +135,19 @@ public class JwtProvider {
             long expirationInMs = expiration.getTime() - now.getTime();
             if (expirationInMs > 0) {
                 String id = claims.getId();
-                ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();
-                opsForValue.set(REDIS_KEY_PREFIX + type + ":" + id, id, expirationInMs, TimeUnit.MILLISECONDS);
+                if (id != null) {
+                    ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();
+                    opsForValue.set(REDIS_KEY_PREFIX + type + ":" + id, claims.getSubject(), expirationInMs,
+                            TimeUnit.MILLISECONDS);
+                }
             }
         }
     }
 
     public boolean isTokenRevoked(String type, String id) {
+        if (id == null) {
+            throw new IllegalArgumentException("id cannot be null");
+        }
         ValueOperations<String, String> opsForValue = stringRedisTemplate.opsForValue();
         String value = opsForValue.get(REDIS_KEY_PREFIX + type + ":" + id);
         return value != null;
