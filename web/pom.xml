@@ -136,28 +136,47 @@
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.13</version>
                 <executions>
                     <execution>
-                        <id>default</id>
+                        <id>build-and-tag-latest</id>
+                        <phase>none</phase>
                         <goals>
                             <goal>build</goal>
-                            <goal>push</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>tag-latest</id>
+                        <id>tag-version</id>
+                        <phase>none</phase>
                         <goals>
-                            <goal>build</goal>
+                            <goal>tag</goal>
+                        </goals>
+                        <configuration>
+                            <tag>${project.version}</tag>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>push-latest</id>
+                        <phase>none</phase>
+                        <goals>
                             <goal>push</goal>
                         </goals>
                         <configuration>
                             <tag>latest</tag>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>push-version</id>
+                        <phase>none</phase>
+                        <goals>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <tag>${project.version}</tag>
+                        </configuration>
+                    </execution>
                 </executions>
                 <configuration>
-                    <repository>ccr.ccs.tencentyun.com/winter-studio/winter-dashboard</repository>
+                    <repository>ccr.ccs.tencentyun.com/winter-studio/winter-dashboard-api</repository>
                     <tag>${project.version}</tag>
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
