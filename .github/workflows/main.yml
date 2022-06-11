@@ -27,6 +27,6 @@ jobs:
       - name: Build and Build-Push
         run: |
           mvn -B -N -DskipTests=true install
-          mvn --% -B -pl web -DskipTests=true package dockerfile:build dockerfile:tag dockerfile:push -Ddockerfile.username=${{ secrets.DEPLOY_DOCKER_USERNAME }} -Ddockerfile.password=${{ secrets.DEPLOY_DOCKER_PASSWORD }}
+          mvn -B -pl web -DskipTests=true package dockerfile:build dockerfile:tag dockerfile:push -Ddockerfile.username=${{ secrets.DEPLOY_DOCKER_USERNAME }} -Ddockerfile.password=${{ secrets.DEPLOY_DOCKER_PASSWORD }}
 
 
