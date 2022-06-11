@@ -177,7 +177,8 @@
                 </executions>
                 <configuration>
                     <repository>ccr.ccs.tencentyun.com/winter-studio/winter-dashboard-api</repository>
-                    <tag>${project.version}</tag>
+                    <username>${docker.username}</username>
+                    <password>${docker.password}</password>
                     <buildArgs>
                         <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>

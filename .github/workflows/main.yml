@@ -19,14 +19,15 @@ jobs:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version: '17'
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
+          cache: 'maven'
 
       - name: Build and Build-Push
         run: |
           mvn -B -N -DskipTests=true install
-          mvn -B -pl web -DskipTests=true package dockerfile:build dockerfile:tag dockerfile:push -Ddockerfile.username=${{ secrets.DEPLOY_DOCKER_USERNAME }} -Ddockerfile.password=${{ secrets.DEPLOY_DOCKER_PASSWORD }}
+          mvn -B -pl web -DskipTests=true package dockerfile:build dockerfile:tag dockerfile:push -Ddocker.username=${{ secrets.DEPLOY_DOCKER_USERNAME }} -Ddocker.password=${{ secrets.DEPLOY_DOCKER_PASSWORD }}
 
 
