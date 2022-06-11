@@ -24,6 +24,9 @@ jobs:
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
-      - name: Build with Maven
-        run: mvn -Ddockerfile.username=${{ secrets.DEPLOY_DOCKER_USERNAME }} -Ddockerfile.password=${{ secrets.DEPLOY_DOCKER_PASSWORD }} -pl web -am package dockerfile:push --file pom.xml
+      - name: Build Parent
+        run: mvn install -N -f pom.xml
+
+      - name: Publish to GitHub
+        run: mvn -Ddockerfile.username=${{ secrets.DEPLOY_DOCKER_USERNAME }} -Ddockerfile.password=${{ secrets.DEPLOY_DOCKER_PASSWORD }} -DskipTests=true -pl web -am package dockerfile:push --file web/pom.xml
 
