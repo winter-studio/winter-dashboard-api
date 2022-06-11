@@ -25,5 +25,5 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
       - name: Build with Maven
-        run: mvnw -Ddockerfile.username=${{ secrets.DEPLOY_DOCKER_USERNAME }} -Ddockerfile.password=${{ secrets.DEPLOY_DOCKER_PASSWORD }} -pl web -am package dockerfile:push --file pom.xml
+        run: mvn -Ddockerfile.username=${{ secrets.DEPLOY_DOCKER_USERNAME }} -Ddockerfile.password=${{ secrets.DEPLOY_DOCKER_PASSWORD }} -pl web -am package dockerfile:push --file pom.xml
 
