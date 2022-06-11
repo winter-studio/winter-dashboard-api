@@ -52,7 +52,8 @@ public class WebSecurityConfig {
                                            JwtAccessDeniedHandler accessDeniedHandler,
                                            JwtAuthenticationFilter jwtAuthenticationFilter,
                                            List<PermitAllRequestMatcher> requestMatchers) throws Exception {
-        http.csrf().and().cors().disable()
+        http.csrf().disable()
+            .cors().disable()
             // .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
             .exceptionHandling().authenticationEntryPoint(authenticationErrorHandler)
