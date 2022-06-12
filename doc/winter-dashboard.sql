@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 09/06/2022 22:22:17
+ Date: 12/06/2022 16:26:41
 */
 
 SET NAMES utf8mb4;
@@ -41,24 +41,24 @@ CREATE TABLE `menu`  (
 -- Records of menu
 -- ----------------------------
 INSERT INTO `menu` VALUES (20, NULL, 'dashboard', 'Dashboard', 'DashboardOutlined', NULL, NULL, 1, 0, 0, 1, 0);
-INSERT INTO `menu` VALUES (21, 20, 'workplace', '工作台', NULL, NULL, 'views/dashboard/Workplace.vue', 2, 0, 1, 1, 0);
+INSERT INTO `menu` VALUES (21, 20, 'workplace', '工作台', NULL, NULL, 'dashboard/Workplace.vue', 2, 0, 1, 1, 0);
 INSERT INTO `menu` VALUES (22, NULL, 'external', '项目文档', 'ApiOutlined', NULL, 'https://github.com/winter-studio/winter-dashboard-ui', 3, 0, 0, 9, 0);
 INSERT INTO `menu` VALUES (23, NULL, 'exception', '异常页面', 'ExclamationCircleOutlined', NULL, NULL, 1, 0, 0, 7, 0);
-INSERT INTO `menu` VALUES (24, 23, '403', '403', NULL, NULL, 'views/basic/exception/403.vue', 2, 0, 1, 8, 0);
-INSERT INTO `menu` VALUES (25, 23, '404', '404', NULL, NULL, 'views/basic/exception/404.vue', 2, 0, 1, 9, 0);
-INSERT INTO `menu` VALUES (26, 23, '500', '500', NULL, NULL, 'views/basic/exception/500.vue', 2, 0, 1, 11, 0);
+INSERT INTO `menu` VALUES (24, 23, '403', '403', NULL, NULL, 'basic/exception/403.vue', 2, 0, 1, 8, 0);
+INSERT INTO `menu` VALUES (25, 23, '404', '404', NULL, NULL, 'basic/exception/404.vue', 2, 0, 1, 9, 0);
+INSERT INTO `menu` VALUES (26, 23, '500', '500', NULL, NULL, 'basic/exception/500.vue', 2, 0, 1, 11, 0);
 INSERT INTO `menu` VALUES (27, NULL, 'frame', '外部页面', 'LinkOutlined', NULL, NULL, 1, 0, 0, 6, 0);
 INSERT INTO `menu` VALUES (28, 27, 'naive-ui', 'NaiveUi', 'BookOutlined', NULL, 'https://www.naiveui.com', 4, 0, 1, 1, 0);
 INSERT INTO `menu` VALUES (29, NULL, 'result', '结果页面', 'CheckCircleOutlined', NULL, NULL, 1, 0, 0, 2, 0);
-INSERT INTO `menu` VALUES (30, 29, 'success', '成功页', NULL, NULL, 'views/result/Success.vue', 2, 0, 1, 1, 0);
-INSERT INTO `menu` VALUES (31, 29, 'fail', '失败页', NULL, NULL, 'views/result/Failure.vue', 2, 0, 1, 2, 0);
-INSERT INTO `menu` VALUES (32, 29, 'info', '信息页', NULL, NULL, 'views/result/Info.vue', 2, 0, 1, 3, 0);
+INSERT INTO `menu` VALUES (30, 29, 'success', '成功页', NULL, NULL, 'result/Success.vue', 2, 0, 1, 1, 0);
+INSERT INTO `menu` VALUES (31, 29, 'fail', '失败页', NULL, NULL, 'result/Failure.vue', 2, 0, 1, 2, 0);
+INSERT INTO `menu` VALUES (32, 29, 'info', '信息页', NULL, NULL, 'result/Info.vue', 2, 0, 1, 3, 0);
 INSERT INTO `menu` VALUES (33, NULL, 'setting', '设置页面', 'SettingOutlined', NULL, NULL, 1, 0, 0, 5, 0);
-INSERT INTO `menu` VALUES (34, 33, 'account', '个人设置', NULL, NULL, 'views/setting/account/Account.vue', 2, 0, 1, 1, 0);
-INSERT INTO `menu` VALUES (35, 33, 'system', '系统设置', NULL, NULL, 'views/setting/system/System.vue', 2, 0, 1, 2, 0);
+INSERT INTO `menu` VALUES (34, 33, 'account', '个人设置', NULL, NULL, 'setting/account/Account.vue', 2, 0, 1, 1, 0);
+INSERT INTO `menu` VALUES (35, 33, 'system', '系统设置', NULL, NULL, 'setting/system/System.vue', 2, 0, 1, 2, 0);
 INSERT INTO `menu` VALUES (36, NULL, 'system', '系统设置', 'AppstoreAddOutlined', NULL, NULL, 1, 0, 0, 4, 0);
-INSERT INTO `menu` VALUES (37, 36, 'menu', '菜单管理', 'MenuOutlined', NULL, 'views/system/menu/Menu.vue', 2, 0, 1, 1, 0);
-INSERT INTO `menu` VALUES (38, NULL, 'about', '关于', 'ProjectOutlined', 'new', 'views/About.vue', 2, 0, 1, 3, 0);
+INSERT INTO `menu` VALUES (37, 36, 'menu', '菜单管理', 'MenuOutlined', NULL, 'system/menu/Menu.vue', 2, 0, 1, 1, 0);
+INSERT INTO `menu` VALUES (38, NULL, 'about', '关于', 'ProjectOutlined', 'new', 'About.vue', 2, 0, 1, 3, 0);
 INSERT INTO `menu` VALUES (39, NULL, 'blog', '博客', 'BookOutlined', NULL, 'https://www.iamkyun.com', 3, 0, 1, 12, 1);
 INSERT INTO `menu` VALUES (40, NULL, 'test', '目录测试', NULL, NULL, NULL, 1, 0, 1, 13, 1);
 INSERT INTO `menu` VALUES (41, 40, 'test', '测试1', 'AimOutlined', NULL, 'https://baidu.com', 3, 0, 1, 1, 1);
@@ -127,7 +127,7 @@ CREATE TABLE `user`  (
   `deleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_u_username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
