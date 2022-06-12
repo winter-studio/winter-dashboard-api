@@ -43,7 +43,7 @@ services:
 
   winter-dashboard-service:
     container_name: winter-dashboard-service
-    image: ccr.ccs.tencentyun.com/winter-studio/winter-dashboard:1.0.0-SNAPSHOT
+    image: ccr.ccs.tencentyun.com/winter-studio/winter-dashboard-api:latest
     ports:
       - "8080:8080"
     environment:
