@@ -22,6 +22,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
@@ -60,8 +61,8 @@ public class JwtProvider {
         this.jwtParser = Jwts.parserBuilder().setSigningKey(key).build();
     }
 
-    public String createToken(String tokenId, String userId, List<String> roles) {
-        Claims claims = Jwts.claims().setId(tokenId).setSubject(userId);
+    public String createToken(String userId, List<String> roles) {
+        Claims claims = Jwts.claims().setId(UUID.randomUUID().toString()).setSubject(userId);
         claims.put("roles", roles);
         Date now = new Date();
         Date validity = new Date(now.getTime() + (expireInSeconds * 1000L));
@@ -73,8 +74,8 @@ public class JwtProvider {
                    .compact();
     }
 
-    public String createRefreshToken(String tokenId, String userId) {
-        Claims claims = Jwts.claims().setId(tokenId).setSubject(userId);
+    public String createRefreshToken(String userId) {
+        Claims claims = Jwts.claims().setId(UUID.randomUUID().toString()).setSubject(userId);
         Date now = new Date();
         Date validity = new Date(now.getTime() + (refreshTokenExpireInSeconds * 1000L));
         return Jwts.builder()
