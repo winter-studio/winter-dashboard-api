@@ -121,10 +121,8 @@ public class JwtProvider {
             return new JwtAuthenticationToken(claims);
         } catch (UnsupportedJwtException | SecurityException | MalformedJwtException | IllegalArgumentException e) {
             SecurityUtils.setAuthenticationState(SecurityUtils.JWT_TOKEN_INVALID);
-            log.error("Invalid JWT token", e);
         } catch (ExpiredJwtException e) {
             SecurityUtils.setAuthenticationState(SecurityUtils.JWT_TOKEN_EXPIRED);
-            log.error("Token expired", e);
         }
         return null;
     }

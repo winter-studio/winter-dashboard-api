@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.winterframework.dashboard.api.base.model.data.MenuTree;
-import org.winterframework.dashboard.api.base.model.request.CreateUserReq;
-import org.winterframework.dashboard.api.base.model.response.CreateUserRes;
-import org.winterframework.dashboard.api.base.service.UserService;
+import org.winterframework.dashboard.api.user.model.data.MenuTree;
+import org.winterframework.dashboard.api.user.model.request.CreateUserReq;
+import org.winterframework.dashboard.api.user.model.response.CreateUserRes;
+import org.winterframework.dashboard.api.user.service.UserService;
 import org.winterframework.dashboard.security.core.JwtAuthenticationToken;
 import org.winterframework.dashboard.web.utils.Jackson;
 
