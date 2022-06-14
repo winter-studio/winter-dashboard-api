@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -49,7 +50,7 @@ public class Menu {
     private String data;
 
     @Schema(description = "类型(1:dir/2:view/3:link/4:iframe)")
-    @NotEmpty(message = "类型不能为空")
+    @NotNull(message = "类型不能为空")
     private Short type;
 
     @Schema(description = "是否隐藏")
