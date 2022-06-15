@@ -62,7 +62,4 @@ public class Menu {
     @Schema(description = "排序(基于同级)")
     private Integer sort;
 
-    @TableLogic
-    private Boolean deleted;
-
 }
