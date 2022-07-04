@@ -3,9 +3,12 @@ package org.winterframework.dashboard.security.utils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.winterframework.dashboard.security.core.JwtAuthenticationToken;
 import org.winterframework.dashboard.security.core.JwtUserDetails;
+
+import java.util.Collection;
 
 @Slf4j
 public class SecurityUtils {
@@ -28,21 +31,23 @@ public class SecurityUtils {
     }
 
     public static Long getUserId() {
-        final JwtAuthenticationToken authentication = getAuthentication();
-        JwtUserDetails principal = authentication.getPrincipal();
+        JwtUserDetails principal = getAuthentication().getPrincipal();
         return principal.getUserId();
     }
 
     public static String getUsername() {
-        final JwtAuthenticationToken authentication = getAuthentication();
-        JwtUserDetails principal = authentication.getPrincipal();
+        JwtUserDetails principal = getAuthentication().getPrincipal();
         return principal.getUsername();
     }
 
     public static Claims getClimes() {
-        final JwtAuthenticationToken authentication = getAuthentication();
-        JwtUserDetails principal = authentication.getPrincipal();
-        return principal.getClaims();
+        JwtUserDetails principal = getAuthentication().getPrincipal();
+        return principal.claims();
+    }
+
+    public static Collection<? extends GrantedAuthority> getAuthorities() {
+        JwtUserDetails principal = getAuthentication().getPrincipal();
+        return principal.getAuthorities();
     }
 
     public static boolean isAuthenticated() {
@@ -62,4 +67,8 @@ public class SecurityUtils {
         return (JwtAuthenticationToken) authentication;
     }
 
+    public static boolean isAdmin() {
+        return isAuthenticated() && getAuthorities().stream().anyMatch(
+                authority -> authority.getAuthority().equals("admin"));
+    }
 }

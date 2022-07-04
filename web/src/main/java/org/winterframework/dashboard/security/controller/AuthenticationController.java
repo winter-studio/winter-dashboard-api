@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.winterframework.dashboard.security.model.UserLoginRequest;
-import org.winterframework.dashboard.security.model.UserLoginResponse;
-import org.winterframework.dashboard.security.model.UserLogoutRequest;
+import org.winterframework.dashboard.security.model.request.UserLoginRequest;
+import org.winterframework.dashboard.security.model.request.UserLogoutRequest;
+import org.winterframework.dashboard.security.model.response.UserLoginResponse;
 import org.winterframework.dashboard.security.service.AuthenticationService;
 import org.winterframework.dashboard.web.model.ApiRes;
 
@@ -25,6 +25,7 @@ import org.winterframework.dashboard.web.model.ApiRes;
 public class AuthenticationController {
 
     private final AuthenticationService authenticateService;
+
 
     @Operation(summary = "登录")
     @PostMapping("/token")

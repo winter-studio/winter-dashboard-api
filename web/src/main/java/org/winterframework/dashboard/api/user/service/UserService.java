@@ -11,10 +11,10 @@ import org.winterframework.dashboard.api.user.entity.Menu;
 import org.winterframework.dashboard.api.user.entity.User;
 import org.winterframework.dashboard.api.user.mapper.MenuMapper;
 import org.winterframework.dashboard.api.user.mapper.UserMapper;
-import org.winterframework.dashboard.api.user.mapper.UserRoleMapper;
 import org.winterframework.dashboard.api.user.model.data.MenuTree;
 import org.winterframework.dashboard.api.user.model.request.CreateUserReq;
 import org.winterframework.dashboard.api.user.model.response.CreateUserRes;
+import org.winterframework.dashboard.api.user.model.response.UserInfoResponse;
 import org.winterframework.dashboard.api.user.utils.UserMenuTreeBuilder;
 import org.winterframework.dashboard.security.utils.SecurityUtils;
 import org.winterframework.dashboard.web.exception.ApiFailureException;
@@ -31,14 +31,13 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
 
     private final PasswordEncoder passwordEncoder;
     private final MenuMapper menuMapper;
-
-    private final UserRoleMapper userRoleMapper;
+    private final UserRoleService userRoleService;
 
     public CreateUserRes createUser(CreateUserReq req) {
         User user = new User();
         user.setUsername(req.username());
         user.setPassword(passwordEncoder.encode(req.password()));
-        boolean saved = false;
+        boolean saved;
         try {
             saved = this.save(user);
         } catch (Exception e) {
@@ -59,7 +58,12 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         return builder.build();
     }
 
-    public List<String> getUserRoles(String userId) {
-        return userRoleMapper.getUserRoles(userId);
+    public UserInfoResponse getCurrentUserInfo() {
+        Long userId = SecurityUtils.getUserId();
+        List<String> roles = userRoleService.getUserRoles(userId);
+        User user = this.getById(userId);
+        return new UserInfoResponse(user, roles);
     }
+
+
 }

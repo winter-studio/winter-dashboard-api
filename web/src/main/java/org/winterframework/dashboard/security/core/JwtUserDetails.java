@@ -8,13 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class JwtUserDetails implements UserDetails {
-
-    private final Claims claims;
-
-    public JwtUserDetails(Claims claims) {
-        this.claims = claims;
-    }
+public record JwtUserDetails(Claims claims) implements UserDetails {
 
     @SuppressWarnings("unchecked")
     @Override
@@ -23,7 +17,7 @@ public class JwtUserDetails implements UserDetails {
         return roles.stream().map(SimpleGrantedAuthority::new).toList();
     }
 
-    public Long getUserId(){
+    public Long getUserId() {
         return Long.valueOf(claims.getSubject());
     }
 
@@ -55,9 +49,5 @@ public class JwtUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
-    }
-
-    public Claims getClaims() {
-        return claims;
     }
 }

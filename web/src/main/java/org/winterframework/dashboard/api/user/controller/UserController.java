@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.winterframework.dashboard.api.user.model.data.MenuTree;
 import org.winterframework.dashboard.api.user.model.request.CreateUserReq;
 import org.winterframework.dashboard.api.user.model.response.CreateUserRes;
+import org.winterframework.dashboard.api.user.model.response.UserInfoResponse;
 import org.winterframework.dashboard.api.user.service.UserService;
 import org.winterframework.dashboard.web.model.ApiRes;
 
@@ -38,6 +39,15 @@ public class UserController {
                      .failureThen().message("创建用户失败");
     }
 
+    @Operation(summary = "获取当前登录用户信息")
+    @GetMapping("/me")
+    public ApiRes<UserInfoResponse> getMyInfo() {
+        UserInfoResponse res = userService.getCurrentUserInfo();
+        return ApiRes.<UserInfoResponse>baseOn(res != null)
+                     .successThen().data(res)
+                     .failureThen().message("获取用户信息失败");
+    }
+
     @Operation(summary = "获取当前登录用户菜单列表")
     @GetMapping("/me/menus")
     public ApiRes<List<MenuTree>> createUser() {
@@ -47,4 +57,6 @@ public class UserController {
                      .failureThen().message("查询菜单失败");
     }
 
+
 }
+

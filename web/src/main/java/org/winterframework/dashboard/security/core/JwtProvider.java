@@ -61,8 +61,8 @@ public class JwtProvider {
         this.jwtParser = Jwts.parserBuilder().setSigningKey(key).build();
     }
 
-    public String createToken(String userId, List<String> roles) {
-        Claims claims = Jwts.claims().setId(UUID.randomUUID().toString()).setSubject(userId);
+    public String createToken(Long userId, List<String> roles) {
+        Claims claims = Jwts.claims().setId(UUID.randomUUID().toString()).setSubject(userId.toString());
         claims.put("roles", roles);
         Date now = new Date();
         Date validity = new Date(now.getTime() + (expireInSeconds * 1000L));

@@ -1,7 +1,8 @@
 package org.winterframework.dashboard.api.user.mapper;
 
-import org.winterframework.dashboard.api.user.entity.UserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
+import org.winterframework.dashboard.api.user.entity.UserRole;
 
 import java.util.List;
 
@@ -11,5 +12,6 @@ import java.util.List;
  */
 public interface UserRoleMapper extends BaseMapper<UserRole> {
 
-    List<String> getUserRoles(String userId);
+    @Select("SELECT code from role where id in (SELECT role_id FROM user_role WHERE user_id = #{userId})")
+    List<String> getUserRoles(Long userId);
 }

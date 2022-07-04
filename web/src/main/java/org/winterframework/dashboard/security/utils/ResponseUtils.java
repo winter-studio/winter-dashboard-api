@@ -8,7 +8,7 @@ public class ResponseUtils {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public String error(String message) {
-        ApiRes<Void> res = ApiRes.error(message);
+        ApiRes<Void> res = ApiRes.errorMessage(message);
         try {
             return objectMapper.writeValueAsString(res);
         } catch (JsonProcessingException e) {

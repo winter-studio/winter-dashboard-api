@@ -1,6 +1,7 @@
 package org.winterframework.dashboard.web.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,12 +13,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class ApiRes<T> implements Serializable {
     @Schema(description = "状态码")
+    @JsonView(ApiResView.class)
     protected int code;
     @Schema(description = "消息")
+    @JsonView(ApiResView.class)
     protected String message;
     @Schema(description = "数据")
+    @JsonView(ApiResView.class)
     protected T data;
     @Schema(description = "结果类型")
+    @JsonView(ApiResView.class)
     protected ApiResType type;
 
     @JsonIgnore
@@ -31,10 +36,10 @@ public class ApiRes<T> implements Serializable {
     }
 
     public static <T> ApiRes<T> success() {
-        return success(null);
+        return success(null, null);
     }
 
-    public static <T> ApiRes<T> success(String message) {
+    public static <T> ApiRes<T> successMessage(String message) {
         return success(ApiResCodes.Ok.COMMON, message);
     }
 
@@ -55,10 +60,10 @@ public class ApiRes<T> implements Serializable {
     }
 
     public static <T> ApiRes<T> failure() {
-        return failure(null);
+        return failure(null, null);
     }
 
-    public static <T> ApiRes<T> failure(String message) {
+    public static <T> ApiRes<T> failureMessage(String message) {
         return failure(ApiResCodes.Failure.COMMON, message);
     }
 
@@ -76,10 +81,10 @@ public class ApiRes<T> implements Serializable {
 
 
     public static <T> ApiRes<T> error() {
-        return error(null);
+        return error(null, null);
     }
 
-    public static <T> ApiRes<T> error(String message) {
+    public static <T> ApiRes<T> errorMessage(String message) {
         return error(ApiResCodes.Error.COMMON, message);
     }
 

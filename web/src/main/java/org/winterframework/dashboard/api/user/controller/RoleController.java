@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Kyun
  * @since 2022-05-26
  */
-@Tag(name = "角色模块")
+@Tag(name ="角色模块")
 @RestController
 @RequestMapping("/roles")
 public class RoleController {

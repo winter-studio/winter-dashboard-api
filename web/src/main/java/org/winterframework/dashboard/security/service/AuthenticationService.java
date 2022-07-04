@@ -7,14 +7,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.winterframework.dashboard.api.user.entity.User;
+import org.winterframework.dashboard.api.user.model.response.UserInfoResponse;
+import org.winterframework.dashboard.api.user.service.UserRoleService;
 import org.winterframework.dashboard.api.user.service.UserService;
 import org.winterframework.dashboard.security.core.JwtProvider;
-import org.winterframework.dashboard.security.model.UserLoginRequest;
-import org.winterframework.dashboard.security.model.UserLoginResponse;
-import org.winterframework.dashboard.security.model.UserLogoutRequest;
+import org.winterframework.dashboard.security.model.request.UserLoginRequest;
+import org.winterframework.dashboard.security.model.request.UserLogoutRequest;
+import org.winterframework.dashboard.security.model.response.UserLoginResponse;
 import org.winterframework.dashboard.security.utils.SecurityUtils;
 import org.winterframework.dashboard.web.exception.ApiFailureException;
 import org.winterframework.dashboard.web.model.ApiResCodes;
+
+import java.util.List;
 
 import static org.winterframework.dashboard.security.core.JwtProvider.TOKEN_TYPE_ACCESS;
 import static org.winterframework.dashboard.security.core.JwtProvider.TOKEN_TYPE_REFRESH;
@@ -27,6 +31,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     private final UserService userService;
+    private final UserRoleService userRoleService;
 
     public UserLoginResponse authenticate(UserLoginRequest userLoginRequest) {
         User user = userService.getByUsername(userLoginRequest.username());
@@ -38,10 +43,15 @@ public class AuthenticationService {
             throw new ApiFailureException("密码错误");
         }
 
-        String token = createAccessToken(user.getId().toString());
+        return createUserLoginResponse(user);
+    }
+
+    private UserLoginResponse createUserLoginResponse(User user) {
+        List<String> userRoles = userRoleService.getUserRoles(user.getId());
+        String token = createAccessToken(user.getId(), userRoles);
         // refresh token
         String refreshToken = createRefreshToken(user.getId().toString());
-        return new UserLoginResponse(userLoginRequest.username(), userLoginRequest.username(), token, refreshToken,
+        return new UserLoginResponse(new UserInfoResponse(user, userRoles), token, refreshToken,
                 jwtProvider.getRefreshTokenExpireInSeconds());
     }
 
@@ -49,17 +59,19 @@ public class AuthenticationService {
         return jwtProvider.createRefreshToken(userId);
     }
 
-    private String createAccessToken(String userId) {
-        return jwtProvider.createToken(userId, userService.getUserRoles(userId));
+    private String createAccessToken(Long userId, List<String> userRoles) {
+        return jwtProvider.createToken(userId, userRoles);
     }
 
     public String refreshToken(String refreshToken) {
         log.info("refreshToken: {}", refreshToken);
-        String userId = jwtProvider.validateRefreshToken(refreshToken);
-        if (userId == null) {
+        String userIdStr = jwtProvider.validateRefreshToken(refreshToken);
+        if (userIdStr == null) {
             throw new ApiFailureException(ApiResCodes.Failure.JWT_REFRESH_TOKEN_INVALID, "refresh token is invalid");
         }
-        return createAccessToken(userId);
+        Long userId = Long.valueOf(userIdStr);
+        List<String> userRoles = userRoleService.getUserRoles(userId);
+        return createAccessToken(userId, userRoles);
     }
 
     public void revokeToken(UserLogoutRequest userLoginRequest) {

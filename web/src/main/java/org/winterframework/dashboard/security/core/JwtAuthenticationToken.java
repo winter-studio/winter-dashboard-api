@@ -3,6 +3,7 @@ package org.winterframework.dashboard.security.core;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.winterframework.dashboard.security.permission.UserRole;
 
 import java.util.Collection;
 
@@ -49,5 +50,9 @@ public class JwtAuthenticationToken implements Authentication {
     @Override
     public String getName() {
         return userDetails.getUsername();
+    }
+
+    public boolean hasRole(UserRole role) {
+        return getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals(role.code()));
     }
 }

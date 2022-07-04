@@ -1,7 +1,7 @@
 package org.winterframework.dashboard.api.user.mapper;
 
-import org.winterframework.dashboard.api.user.entity.RoleMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.winterframework.dashboard.api.user.entity.RoleMenu;
 
 /**
  * @author Kyun
