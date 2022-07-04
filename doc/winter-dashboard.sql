@@ -160,7 +160,6 @@ CREATE TABLE `user`  (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES (1, 'admin', '$2a$12$iIhN5Q3hUHRYD9k4t5oQWux1YPG5CYl/acjUHXDZNhbUUMLYic0SW', '2022-06-16 03:58:10', 0, NULL, '管理员', NULL, NULL);
-INSERT INTO `user` VALUES (2, 'kyun', '$2a$12$iIhN5Q3hUHRYD9k4t5oQWux1YPG5CYl/acjUHXDZNhbUUMLYic0SW', '2022-06-23 14:18:42', 0, 'osRfN6taiKjrb1x4yRCcMZ9CabnM', 'Kyun', 'https://thirdwx.qlogo.cn/mmopen/vi_32/eY24dKr1M5J5qyiapyQLPo1a8ucvUSVznp2Z3Eyo1Z8BLsibPdshEk5UWONGiaZBhEicYaAavQzicc5M1gt4KFia5HYQ/132', '18675802286');
 
 -- ----------------------------
 -- Table structure for user_role
