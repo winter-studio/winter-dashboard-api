@@ -36,7 +36,7 @@ public class WebSecurityConfig extends GlobalMethodSecurityConfiguration {
     @Autowired
     private ApplicationContext context;
 
-    @Autowired
+    @Autowired(required = false)
     private List<DataPermissionHandler> handlers;
 
     @Override
