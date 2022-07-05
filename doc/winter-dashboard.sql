@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 04/07/2022 14:27:38
+ Date: 05/07/2022 23:17:24
 */
 
 SET NAMES utf8mb4;
@@ -34,30 +34,17 @@ CREATE TABLE `menu`  (
   `keep_alive` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否缓存',
   `sort` smallint NOT NULL COMMENT '排序(基于同级)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
 INSERT INTO `menu` VALUES (20, NULL, 'dashboard', 'Dashboard', 'DashboardOutlined', NULL, NULL, 1, 0, 0, 1);
 INSERT INTO `menu` VALUES (21, 20, 'workplace', '工作台', NULL, NULL, 'dashboard/Workplace.vue', 2, 0, 1, 1);
-INSERT INTO `menu` VALUES (22, NULL, 'external', '项目文档', 'ApiOutlined', NULL, 'https://github.com/winter-studio/winter-dashboard-ui', 3, 0, 0, 9);
-INSERT INTO `menu` VALUES (23, NULL, 'exception', '异常页面', 'ExclamationCircleOutlined', NULL, NULL, 1, 0, 0, 7);
-INSERT INTO `menu` VALUES (24, 23, '403', '403', NULL, NULL, 'basic/exception/403.vue', 2, 0, 1, 8);
-INSERT INTO `menu` VALUES (25, 23, '404', '404', NULL, NULL, 'basic/exception/404.vue', 2, 0, 1, 9);
-INSERT INTO `menu` VALUES (26, 23, '500', '500', NULL, NULL, 'basic/exception/500.vue', 2, 0, 1, 11);
-INSERT INTO `menu` VALUES (27, NULL, 'frame', '外部页面', 'LinkOutlined', NULL, NULL, 1, 0, 0, 6);
-INSERT INTO `menu` VALUES (28, 27, 'naive-ui', 'NaiveUi', 'BookOutlined', NULL, 'https://www.naiveui.com', 4, 0, 1, 1);
-INSERT INTO `menu` VALUES (29, NULL, 'result', '结果页面', 'CheckCircleOutlined', NULL, NULL, 1, 0, 0, 2);
-INSERT INTO `menu` VALUES (30, 29, 'success', '成功页', NULL, NULL, 'result/Success.vue', 2, 0, 1, 1);
-INSERT INTO `menu` VALUES (31, 29, 'fail', '失败页', NULL, NULL, 'result/Failure.vue', 2, 0, 1, 2);
-INSERT INTO `menu` VALUES (32, 29, 'info', '信息页', NULL, NULL, 'result/Info.vue', 2, 0, 1, 3);
-INSERT INTO `menu` VALUES (33, NULL, 'setting', '设置页面', 'SettingOutlined', NULL, NULL, 1, 0, 0, 5);
-INSERT INTO `menu` VALUES (34, 33, 'account', '个人设置', NULL, NULL, 'setting/account/Account.vue', 2, 0, 1, 1);
-INSERT INTO `menu` VALUES (35, 33, 'system', '系统设置', NULL, NULL, 'setting/system/System.vue', 2, 0, 1, 2);
 INSERT INTO `menu` VALUES (36, NULL, 'system', '系统设置', 'AppstoreAddOutlined', NULL, NULL, 1, 0, 0, 4);
 INSERT INTO `menu` VALUES (37, 36, 'menu', '菜单管理', 'MenuOutlined', NULL, 'system/menu/Menu.vue', 2, 0, 1, 1);
-INSERT INTO `menu` VALUES (38, NULL, 'about', '关于', 'ProjectOutlined', 'new', 'About.vue', 2, 0, 1, 3);
+INSERT INTO `menu` VALUES (38, NULL, 'about', '关于', 'ProjectOutlined', 'new', 'About.vue', 2, 0, 1, 5);
+INSERT INTO `menu` VALUES (45, 36, 'users', '用户管理', 'UsergroupAddOutlined', NULL, 'system/user/User.vue', 2, 0, 1, 2);
 
 -- ----------------------------
 -- Table structure for role
@@ -68,7 +55,7 @@ CREATE TABLE `role`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色名称',
   `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色代码',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of role
@@ -85,7 +72,7 @@ CREATE TABLE `role_menu`  (
   `role_id` int UNSIGNED NOT NULL,
   `menu_id` int NOT NULL,
   PRIMARY KEY (`role_id`, `menu_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of role_menu
@@ -126,7 +113,7 @@ CREATE TABLE `upload_file`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `deleted` tinyint NOT NULL DEFAULT 0 COMMENT '删除标识',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '文件上传' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '文件上传' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of upload_file
@@ -154,7 +141,7 @@ CREATE TABLE `user`  (
   `mobile` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '电话号码',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_u_username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user
@@ -169,7 +156,7 @@ CREATE TABLE `user_role`  (
   `user_id` bigint UNSIGNED NOT NULL COMMENT '用户ID',
   `role_id` int UNSIGNED NOT NULL,
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user_role
