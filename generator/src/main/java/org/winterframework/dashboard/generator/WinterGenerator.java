@@ -11,6 +11,11 @@ import java.util.Collections;
 
 public class WinterGenerator {
     public static void main(String[] args) {
+        String moduleName = "user";
+        String[] tables = new String[]{
+                "user"
+        };
+
         String url =
                 "jdbc:mysql://localhost:3306/winter-dashboard?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true";
         String username = "root";
@@ -22,17 +27,20 @@ public class WinterGenerator {
                                     .outputDir("C:\\temp"); // 指定输出目录
                          })
                          .packageConfig(builder -> {
-                             builder.parent("org.winterframework.dashboard") // 设置父包名
-                                    .moduleName("base") // 设置父包模块名
+                             builder.parent("org.winterframework.ankenail.api") // 设置父包名
+                                    .moduleName(moduleName) // 设置父包模块名
                                     .pathInfo(Collections.singletonMap(OutputFile.xml,
-                                            "C:\\temp\\xml")); // 设置mapperXml生成路径
+                                            "C:\\temp\\mapper\\" + moduleName)); // 设置mapperXml生成路径
                          })
                          .strategyConfig(builder -> {
-                             builder.addInclude("menu") // 设置需要生成的表名
+                             builder.addInclude(tables) // 设置需要生成的表名
                                     .addTablePrefix("t_", "c_"); // 设置过滤表前缀
 
                              builder.entityBuilder().logicDeleteColumnName("deleted")
                                     .addTableFills(new Column("create_time", FieldFill.INSERT))
+                                    .addTableFills(new Column("create_by", FieldFill.INSERT))
+                                    .addTableFills(new Column("update_time", FieldFill.UPDATE))
+                                    .addTableFills(new Column("update_by", FieldFill.UPDATE))
                                     .disableSerialVersionUID()
                                     .enableLombok();
 

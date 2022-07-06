@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 05/07/2022 23:17:24
+ Date: 06/07/2022 16:40:51
 */
 
 SET NAMES utf8mb4;
@@ -96,6 +96,7 @@ INSERT INTO `role_menu` VALUES (1, 35);
 INSERT INTO `role_menu` VALUES (1, 36);
 INSERT INTO `role_menu` VALUES (1, 37);
 INSERT INTO `role_menu` VALUES (1, 38);
+INSERT INTO `role_menu` VALUES (1, 45);
 
 -- ----------------------------
 -- Table structure for upload_file
@@ -139,6 +140,7 @@ CREATE TABLE `user`  (
   `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '昵称',
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '头像url',
   `mobile` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '电话号码',
+  `status` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '状态(0:正常)',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_u_username`(`username` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户' ROW_FORMAT = DYNAMIC;
@@ -146,7 +148,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', '$2a$12$iIhN5Q3hUHRYD9k4t5oQWux1YPG5CYl/acjUHXDZNhbUUMLYic0SW', '2022-06-16 03:58:10', 0, NULL, '管理员', NULL, NULL);
+INSERT INTO `user` VALUES (1, 'admin', '$2a$12$iIhN5Q3hUHRYD9k4t5oQWux1YPG5CYl/acjUHXDZNhbUUMLYic0SW', '2022-06-16 03:58:10', 0, NULL, '管理员', NULL, NULL, '0');
 
 -- ----------------------------
 -- Table structure for user_role

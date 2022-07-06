@@ -5,11 +5,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import java.time.LocalDateTime;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Kyun
- * @since 2022-06-15
+ * @since 2022-07-06
  */
 @Getter
 @Setter
@@ -51,5 +50,8 @@ public class User {
 
     @Schema(description = "电话号码")
     private String mobile;
+
+    @Schema(description = "状态(0:正常)")
+    private String status;
 
 }
