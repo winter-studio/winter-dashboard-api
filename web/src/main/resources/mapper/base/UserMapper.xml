@@ -4,6 +4,17 @@
 
     <select id="pagingQueryUsers" resultType="org.winterframework.dashboard.api.user.model.response.AdminUserPageItem">
         SELECT t.id, t.avatar, t.username, t.nickname, t.mobile, t.create_time, t.status
-          FROM `user` t
+        FROM `user` t
+
+        WHERE t.deleted = 0
+        <if test="query.username!=null and query.username!=''">
+            AND t.username LIKE CONCAT('%', #{username}, '%')
+        </if>
+        <if test="query.nickname!=null and query.nickname!=''">
+            AND t.nickname LIKE CONCAT('%', #{nickname}, '%')
+        </if>
+        <if test="query.mobile!=null and query.mobile!=''">
+            AND t.mobile LIKE CONCAT('%', #{mobile}, '%')
+        </if>
     </select>
 </mapper>
