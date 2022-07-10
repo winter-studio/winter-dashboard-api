@@ -8,14 +8,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.winterframework.dashboard.security.access.DataPermissionEvaluator;
@@ -46,18 +43,6 @@ public class WebSecurityConfig extends GlobalMethodSecurityConfiguration {
         expressionHandler.setApplicationContext(context);
         expressionHandler.setDefaultRolePrefix("");
         return expressionHandler;
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        // ALTHOUGH THIS SEEMS LIKE USELESS CODE,
-        // IT'S REQUIRED TO PREVENT SPRING BOOT AUTO-CONFIGURATION
-        return null;
     }
 
     @Profile("dev")

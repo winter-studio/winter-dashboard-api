@@ -12,11 +12,11 @@ import java.io.Serializable;
 @Schema(description = "分页查询参数")
 public class PageParam implements Serializable {
     @Schema(description = "当前页数")
-    private int current = 1;
+    private int page = 1;
     @Schema(description = "页大小")
-    private int size = 10;
+    private int pageSize = 10;
 
     public Page<?> toPage() {
-        return new Page<>(current, size);
+        return new Page<>(page, pageSize);
     }
 }

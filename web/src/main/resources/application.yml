@@ -10,7 +10,8 @@ spring:
   redis:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
-
+  mvc:
+    log-resolved-exception: false
 minio:
   endpoint: ${MINIO_ENDPOINT:http://localhost:9000}
   pre-signed-endpoint: ${MINIO_ENDPOINT:http://dashboard.iamkyun.com:9000}

@@ -2,6 +2,7 @@ package org.winterframework.dashboard.api.user.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +13,15 @@ import org.winterframework.dashboard.api.user.entity.User;
 import org.winterframework.dashboard.api.user.mapper.MenuMapper;
 import org.winterframework.dashboard.api.user.mapper.UserMapper;
 import org.winterframework.dashboard.api.user.model.data.MenuTree;
+import org.winterframework.dashboard.api.user.model.request.AdminUserPageReq;
 import org.winterframework.dashboard.api.user.model.request.CreateUserReq;
+import org.winterframework.dashboard.api.user.model.response.AdminUserPageItem;
 import org.winterframework.dashboard.api.user.model.response.CreateUserRes;
 import org.winterframework.dashboard.api.user.model.response.UserInfoResponse;
 import org.winterframework.dashboard.api.user.utils.UserMenuTreeBuilder;
 import org.winterframework.dashboard.security.utils.SecurityUtils;
 import org.winterframework.dashboard.web.exception.ApiFailureException;
+import org.winterframework.dashboard.web.model.PageRes;
 
 import java.util.List;
 
@@ -66,4 +70,9 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
     }
 
 
+    public PageRes<AdminUserPageItem> getUserPagingList(AdminUserPageReq req) {
+        Page<?> page = req.toPage();
+
+        return PageRes.of(baseMapper.pagingQueryUsers(page, req));
+    }
 }

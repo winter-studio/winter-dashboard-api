@@ -15,16 +15,16 @@ public class PageRes<T> implements Serializable {
     @Schema(description = "总页数")
     private long total;
     @Schema(description = "当前页数")
-    private long current;
+    private long page;
     @Schema(description = "每页大小")
-    private long size;
+    private long pageSize;
     @Schema(description = "是否还有更多数据")
     private boolean hasMore;
 
     public static <T> PageRes<T> of(IPage<T> mpPage) {
         PageRes<T> pageRes = new PageRes<>();
-        pageRes.setCurrent(mpPage.getCurrent());
-        pageRes.setSize(mpPage.getSize());
+        pageRes.setPage(mpPage.getCurrent());
+        pageRes.setPageSize(mpPage.getSize());
         pageRes.setTotal(mpPage.getTotal());
         pageRes.setList(mpPage.getRecords());
         pageRes.setHasMore(mpPage.getCurrent() < mpPage.getPages());

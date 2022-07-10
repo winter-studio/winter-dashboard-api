@@ -4,5 +4,5 @@ import org.springframework.stereotype.Component;
 
 @Component("Roles")
 public class Roles {
-    public static final UserRole ADMIN = UserRole.ADMIN;
+    public static final String ADMIN = UserRole.ADMIN.code();
 }

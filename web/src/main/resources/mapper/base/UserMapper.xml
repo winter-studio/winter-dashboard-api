@@ -1,5 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.winterframework.dashboard.api.user.mapper.UserMapper">
 
+    <select id="pagingQueryUsers" resultType="org.winterframework.dashboard.api.user.model.response.AdminUserPageItem">
+        SELECT t.id, t.avatar, t.username, t.nickname, t.mobile, t.create_time, t.status
+          FROM `user` t
+    </select>
 </mapper>
