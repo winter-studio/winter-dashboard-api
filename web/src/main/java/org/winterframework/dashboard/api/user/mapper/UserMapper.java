@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.winterframework.dashboard.api.user.entity.User;
 import org.winterframework.dashboard.api.user.model.request.AdminUserPageReq;
+import org.winterframework.dashboard.api.user.model.response.AdminUserForm;
 import org.winterframework.dashboard.api.user.model.response.AdminUserPageItem;
 
 /**
@@ -15,4 +16,6 @@ import org.winterframework.dashboard.api.user.model.response.AdminUserPageItem;
 public interface UserMapper extends BaseMapper<User> {
 
     IPage<AdminUserPageItem> pagingQueryUsers(Page<?> page, @Param("query") AdminUserPageReq req);
+
+    AdminUserForm queryUserFormById(@Param("id") Long id);
 }

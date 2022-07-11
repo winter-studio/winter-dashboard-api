@@ -78,6 +78,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
     }
 
     public AdminUserForm getUserForm(Long id) {
-        return null;
+        return this.baseMapper.queryUserFormById(id);
     }
 }
