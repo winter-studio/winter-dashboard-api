@@ -15,6 +15,7 @@ import org.winterframework.dashboard.api.user.mapper.UserMapper;
 import org.winterframework.dashboard.api.user.model.data.MenuTree;
 import org.winterframework.dashboard.api.user.model.request.AdminUserPageReq;
 import org.winterframework.dashboard.api.user.model.request.CreateUserReq;
+import org.winterframework.dashboard.api.user.model.response.AdminUserForm;
 import org.winterframework.dashboard.api.user.model.response.AdminUserPageItem;
 import org.winterframework.dashboard.api.user.model.response.CreateUserRes;
 import org.winterframework.dashboard.api.user.model.response.UserInfoResponse;
@@ -74,5 +75,9 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         Page<?> page = req.toPage();
 
         return PageRes.of(baseMapper.pagingQueryUsers(page, req));
+    }
+
+    public AdminUserForm getUserForm(Long id) {
+        return null;
     }
 }

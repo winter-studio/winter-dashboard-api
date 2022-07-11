@@ -3,7 +3,6 @@ package org.winterframework.dashboard.api.user.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,14 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.winterframework.dashboard.api.user.model.data.MenuTree;
-import org.winterframework.dashboard.api.user.model.request.AdminUserPageReq;
 import org.winterframework.dashboard.api.user.model.request.CreateUserReq;
-import org.winterframework.dashboard.api.user.model.response.AdminUserPageItem;
 import org.winterframework.dashboard.api.user.model.response.CreateUserRes;
 import org.winterframework.dashboard.api.user.model.response.UserInfoResponse;
 import org.winterframework.dashboard.api.user.service.UserService;
 import org.winterframework.dashboard.web.model.ApiRes;
-import org.winterframework.dashboard.web.model.PageRes;
 
 import java.util.List;
 
@@ -59,14 +55,6 @@ public class UserController {
         return ApiRes.<List<MenuTree>>baseOn(res != null)
                      .successThen().data(res)
                      .failureThen().message("查询菜单失败");
-    }
-
-    @Operation(summary = "分页查询用户列表")
-    @GetMapping
-    @PreAuthorize("hasAuthority(@Roles.ADMIN)")
-    public ApiRes<PageRes<AdminUserPageItem>> getPagingUsers(AdminUserPageReq req) {
-        PageRes<AdminUserPageItem> page = userService.getUserPagingList(req);
-        return ApiRes.success(page);
     }
 
 
