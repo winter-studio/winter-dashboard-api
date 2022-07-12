@@ -1,7 +1,7 @@
 package org.winterframework.dashboard.minio;
 
 public enum StorePath {
-    UserProfile(FileType.BASIS, "user_profile");
+    UserProfile(FileType.UserProfile, "avatar");
 
     private final FileType fileType;
     private final String dir;
@@ -11,11 +11,11 @@ public enum StorePath {
         this.dir = image;
     }
 
-    public FileType getBucket() {
+    public FileType bucket() {
         return fileType;
     }
 
-    public String getDir() {
+    public String dir() {
         return dir;
     }
 }

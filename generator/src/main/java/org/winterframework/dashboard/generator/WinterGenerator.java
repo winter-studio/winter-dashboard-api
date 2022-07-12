@@ -27,7 +27,7 @@ public class WinterGenerator {
                                     .outputDir("C:\\temp"); // 指定输出目录
                          })
                          .packageConfig(builder -> {
-                             builder.parent("org.winterframework.ankenail.api") // 设置父包名
+                             builder.parent("org.winterframework.dashboard.api") // 设置父包名
                                     .moduleName(moduleName) // 设置父包模块名
                                     .pathInfo(Collections.singletonMap(OutputFile.xml,
                                             "C:\\temp\\mapper\\" + moduleName)); // 设置mapperXml生成路径

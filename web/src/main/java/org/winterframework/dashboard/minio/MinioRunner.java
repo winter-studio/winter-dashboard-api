@@ -25,11 +25,12 @@ public class MinioRunner implements ApplicationRunner {
         log.info("Creating MinIO buckets...");
         FileType[] fileTypes = FileType.values();
         for (FileType fileType : fileTypes) {
-            String bucketName = fileType.getName();
+            String bucketName = fileType.value();
             boolean found =
                     minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
             if (!found) {
-                minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+                MakeBucketArgs args = MakeBucketArgs.builder().bucket(bucketName).build();
+                minioClient.makeBucket(args);
                 log.info("Bucket {} created.", bucketName);
             } else {
                 log.info("Bucket {} already exists.", bucketName);

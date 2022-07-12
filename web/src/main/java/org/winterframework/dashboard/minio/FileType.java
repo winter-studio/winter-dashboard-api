@@ -1,15 +1,16 @@
 package org.winterframework.dashboard.minio;
 
 public enum FileType {
-    BASIS("basis");
+    BASIS("basis"),
+    UserProfile("userprofile");
 
-    private final String name;
+    private final String value;
 
-    FileType(String name) {
-        this.name = name;
+    FileType(String value) {
+        this.value = value;
     }
 
-    public String getName() {
-        return name;
+    public String value() {
+        return value;
     }
 }
