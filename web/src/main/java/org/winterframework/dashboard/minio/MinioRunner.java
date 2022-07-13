@@ -1,8 +1,5 @@
 package org.winterframework.dashboard.minio;
 
-import io.minio.BucketExistsArgs;
-import io.minio.MakeBucketArgs;
-import io.minio.MinioClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -14,7 +11,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MinioRunner implements ApplicationRunner {
 
-    private final MinioClient minioClient;
+    private final MinioManager minioManager;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -26,15 +23,7 @@ public class MinioRunner implements ApplicationRunner {
         FileType[] fileTypes = FileType.values();
         for (FileType fileType : fileTypes) {
             String bucketName = fileType.value();
-            boolean found =
-                    minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
-            if (!found) {
-                MakeBucketArgs args = MakeBucketArgs.builder().bucket(bucketName).build();
-                minioClient.makeBucket(args);
-                log.info("Bucket {} created.", bucketName);
-            } else {
-                log.info("Bucket {} already exists.", bucketName);
-            }
+            minioManager.ensureBucket(bucketName);
         }
 
     }

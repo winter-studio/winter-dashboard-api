@@ -26,29 +26,18 @@
         <result property="avatar" column="avatar" />
         <result property="createTime" column="create_time" />
         <result property="status" column="status" />
-        <collection property="roles" ofType="org.winterframework.dashboard.api.user.entity.Role">
-            <id property="id" column="role_id" />
-            <result property="name" column="role_name" />
-            <result property="code" column="role_code" />
+        <collection property="roles" ofType="java.lang.String">
+            <id column="role_id" />
         </collection>
     </resultMap>
 
     <select id="queryUserFormById" resultMap="userForm">
-        SELECT t.id,
-               t.avatar,
-               t.username,
-               t.nickname,
-               t.mobile,
-               t.create_time,
-               t.status,
-               r.id   AS role_id,
-               r.name AS role_name,
-               r.code AS role_code
-        FROM `user` t
-                 LEFT JOIN user_role ur
-                           ON t.id = ur.user_id
-                 LEFT JOIN role r
-                           ON ur.role_id = r.id
-        where t.id = #{id}
+        SELECT t.id, t.avatar, t.username, t.nickname, t.mobile, t.create_time, t.status, r.id AS role_id
+          FROM `user` t
+                   LEFT JOIN user_role ur
+                   ON t.id = ur.user_id
+                   LEFT JOIN role r
+                   ON ur.role_id = r.id
+         WHERE t.id = #{id}
     </select>
 </mapper>

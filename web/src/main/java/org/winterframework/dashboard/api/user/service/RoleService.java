@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.winterframework.dashboard.api.user.entity.Role;
 import org.winterframework.dashboard.api.user.mapper.RoleMapper;
+import org.winterframework.dashboard.web.model.SelectOption;
+
+import java.util.List;
 
 /**
  * @author Kyun
@@ -13,4 +16,7 @@ import org.winterframework.dashboard.api.user.mapper.RoleMapper;
 @Service
 public class RoleService extends ServiceImpl<RoleMapper, Role> implements IService<Role> {
 
+    public List<SelectOption> getRoleOptions() {
+        return baseMapper.queryRoleOptions();
+    }
 }

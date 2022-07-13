@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.winterframework.dashboard.api.user.entity.Menu;
 import org.winterframework.dashboard.api.user.entity.User;
 import org.winterframework.dashboard.api.user.mapper.MenuMapper;
@@ -20,6 +21,8 @@ import org.winterframework.dashboard.api.user.model.response.AdminUserPageItem;
 import org.winterframework.dashboard.api.user.model.response.CreateUserRes;
 import org.winterframework.dashboard.api.user.model.response.UserInfoResponse;
 import org.winterframework.dashboard.api.user.utils.UserMenuTreeBuilder;
+import org.winterframework.dashboard.minio.MinioManager;
+import org.winterframework.dashboard.minio.StorePath;
 import org.winterframework.dashboard.security.utils.SecurityUtils;
 import org.winterframework.dashboard.web.exception.ApiFailureException;
 import org.winterframework.dashboard.web.model.PageRes;
@@ -37,6 +40,8 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
     private final PasswordEncoder passwordEncoder;
     private final MenuMapper menuMapper;
     private final UserRoleService userRoleService;
+
+    private final MinioManager minioManager;
 
     public CreateUserRes createUser(CreateUserReq req) {
         User user = new User();
@@ -79,5 +84,10 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
 
     public AdminUserForm getUserForm(Long id) {
         return this.baseMapper.queryUserFormById(id);
+    }
+
+    public String uploadUserAvatar(MultipartFile file) throws Exception {
+        String name = file.getOriginalFilename();
+        return minioManager.putFileAndGetUrl(file.getInputStream(), file.getSize(), name, StorePath.UserProfile);
     }
 }

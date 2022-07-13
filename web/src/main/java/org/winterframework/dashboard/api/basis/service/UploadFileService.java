@@ -1,7 +1,5 @@
 package org.winterframework.dashboard.api.basis.service;
 
-import cn.hutool.core.io.file.FileNameUtil;
-import cn.hutool.core.lang.Snowflake;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -10,31 +8,24 @@ import io.minio.GetObjectArgs;
 import io.minio.GetObjectResponse;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
 import io.minio.http.Method;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.winterframework.dashboard.api.basis.entity.UploadFile;
 import org.winterframework.dashboard.api.basis.mapper.UploadFileMapper;
 import org.winterframework.dashboard.api.basis.model.MinioObject;
 import org.winterframework.dashboard.minio.DownloadFile;
 import org.winterframework.dashboard.minio.FileType;
 import org.winterframework.dashboard.minio.MinioProperties;
-import org.winterframework.dashboard.minio.StorePath;
 import org.winterframework.dashboard.security.utils.SecurityUtils;
 import org.winterframework.dashboard.web.exception.ApiErrorException;
 import org.winterframework.dashboard.web.model.ApiResCodes;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
-import static cn.hutool.core.text.StrPool.DOT;
-import static cn.hutool.core.text.StrPool.SLASH;
 
 /**
  * @author Kyun
@@ -46,7 +37,6 @@ public class UploadFileService extends ServiceImpl<UploadFileMapper, UploadFile>
 
     private final MinioClient minioClient;
     private final MinioProperties minioProperties;
-    private final Snowflake snowflake;
 
 
     public MinioObject downloadPublicFile(Long id) {
@@ -120,20 +110,4 @@ public class UploadFileService extends ServiceImpl<UploadFileMapper, UploadFile>
         return downloadFile;
     }
 
-    public String uploadPublicFile(MultipartFile file) throws Exception {
-        String name = file.getOriginalFilename();
-        String suffix = FileNameUtil.getSuffix(name);
-        String fullPath = StorePath.UserProfile.dir() + SLASH + snowflake.nextIdStr() + DOT + suffix;
-
-        String bucket = StorePath.UserProfile.bucket().value();
-        try (InputStream inputStream = file.getInputStream()) {
-            PutObjectArgs args = PutObjectArgs.builder()
-                                              .bucket(bucket)
-                                              .object(fullPath)
-                                              .stream(inputStream, file.getSize(), -1).build();
-            minioClient.putObject(args);
-        }
-
-        return minioProperties.getPreSignedEndpoint() + SLASH + bucket + SLASH + fullPath;
-    }
 }

@@ -3,7 +3,6 @@ package org.winterframework.dashboard.api.user.model.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import org.winterframework.dashboard.api.user.entity.Role;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +27,6 @@ public class AdminUserForm {
     @Schema(description = "状态")
     private String status;
     @Schema(description = "角色")
-    private List<Role> roles;
+    private List<String> roles;
 
 }
