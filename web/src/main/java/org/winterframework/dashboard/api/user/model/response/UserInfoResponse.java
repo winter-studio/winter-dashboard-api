@@ -23,6 +23,9 @@ public class UserInfoResponse {
     private String nickname;
     @Schema(description = "头像")
     private String avatar;
+
+    @Schema(description = "状态")
+    private String status;
     @Schema(description = "角色")
     private List<String> roles;
 
@@ -32,6 +35,7 @@ public class UserInfoResponse {
         this.mobile = user.getMobile();
         this.nickname = user.getNickname();
         this.avatar = user.getAvatar();
+        this.status = user.getStatus();
         this.roles = roles;
     }
 }
