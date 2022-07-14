@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.winterframework.dashboard.api.user.entity.Menu;
 import org.winterframework.dashboard.api.user.entity.User;
@@ -16,6 +18,7 @@ import org.winterframework.dashboard.api.user.mapper.UserMapper;
 import org.winterframework.dashboard.api.user.model.data.MenuTree;
 import org.winterframework.dashboard.api.user.model.request.AdminUserPageReq;
 import org.winterframework.dashboard.api.user.model.request.CreateUserReq;
+import org.winterframework.dashboard.api.user.model.request.UserEditForm;
 import org.winterframework.dashboard.api.user.model.response.AdminUserForm;
 import org.winterframework.dashboard.api.user.model.response.AdminUserPageItem;
 import org.winterframework.dashboard.api.user.model.response.CreateUserRes;
@@ -89,5 +92,42 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
     public String uploadUserAvatar(MultipartFile file) throws Exception {
         String name = file.getOriginalFilename();
         return minioManager.putFileAndGetUrl(file.getInputStream(), file.getSize(), name, StorePath.UserProfile);
+    }
+
+    public void changeUserStatus(Long id, String status) {
+        User user = new User();
+        user.setId(id);
+        user.setStatus(status);
+        this.updateById(user);
+    }
+
+    @Transactional
+    public Long addUser(UserEditForm form) {
+        User user = getUserFromForm(form);
+        this.save(user);
+        userRoleService.addUserRoles(user.getId(), form.getRoles());
+        return user.getId();
+    }
+
+    @NotNull
+    private User getUserFromForm(UserEditForm form) {
+        User user = new User();
+        user.setUsername(form.getUsername());
+        if (form.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(form.getPassword()));
+        }
+        user.setStatus(form.getStatus());
+        user.setAvatar(form.getAvatar());
+        user.setMobile(form.getMobile());
+        user.setNickname(form.getNickname());
+        return user;
+    }
+
+    @Transactional
+    public void editUser(Long id, UserEditForm form) {
+        User user = getUserFromForm(form);
+        user.setId(id);
+        this.updateById(user);
+        userRoleService.addUserRoles(user.getId(), form.getRoles());
     }
 }

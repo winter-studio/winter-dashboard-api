@@ -60,7 +60,7 @@ public class UserController {
                      .failureThen().message("查询菜单失败");
     }
 
-    @Operation(summary = "上传公开的文件", description = "上传公开的文件，返回访问路径")
+    @Operation(summary = "上传头像", description = "上传头像，返回访问路径")
     @PostMapping(path = "/profile/avatar", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiRes<String> uploadUserAvatar(@RequestParam("avatar") MultipartFile file) throws Exception {
         String url = userService.uploadUserAvatar(file);
