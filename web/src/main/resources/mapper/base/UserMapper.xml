@@ -8,13 +8,13 @@
 
         WHERE t.deleted = 0
         <if test="query.username!=null and query.username!=''">
-            AND t.username LIKE CONCAT('%', #{username}, '%')
+            AND t.username LIKE CONCAT('%', #{query.username}, '%')
         </if>
         <if test="query.nickname!=null and query.nickname!=''">
-            AND t.nickname LIKE CONCAT('%', #{nickname}, '%')
+            AND t.nickname LIKE CONCAT('%', #{query.nickname}, '%')
         </if>
         <if test="query.mobile!=null and query.mobile!=''">
-            AND t.mobile LIKE CONCAT('%', #{mobile}, '%')
+            AND t.mobile LIKE CONCAT('%', #{query.mobile}, '%')
         </if>
     </select>
 

@@ -17,17 +17,14 @@ import org.winterframework.dashboard.api.user.mapper.MenuMapper;
 import org.winterframework.dashboard.api.user.mapper.UserMapper;
 import org.winterframework.dashboard.api.user.model.data.MenuTree;
 import org.winterframework.dashboard.api.user.model.request.AdminUserPageReq;
-import org.winterframework.dashboard.api.user.model.request.CreateUserReq;
 import org.winterframework.dashboard.api.user.model.request.UserEditForm;
 import org.winterframework.dashboard.api.user.model.response.AdminUserForm;
 import org.winterframework.dashboard.api.user.model.response.AdminUserPageItem;
-import org.winterframework.dashboard.api.user.model.response.CreateUserRes;
 import org.winterframework.dashboard.api.user.model.response.UserInfoResponse;
 import org.winterframework.dashboard.api.user.utils.UserMenuTreeBuilder;
 import org.winterframework.dashboard.minio.MinioManager;
 import org.winterframework.dashboard.minio.StorePath;
 import org.winterframework.dashboard.security.utils.SecurityUtils;
-import org.winterframework.dashboard.web.exception.ApiFailureException;
 import org.winterframework.dashboard.web.model.PageRes;
 
 import java.util.List;
@@ -45,19 +42,6 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
     private final UserRoleService userRoleService;
 
     private final MinioManager minioManager;
-
-    public CreateUserRes createUser(CreateUserReq req) {
-        User user = new User();
-        user.setUsername(req.username());
-        user.setPassword(passwordEncoder.encode(req.password()));
-        boolean saved;
-        try {
-            saved = this.save(user);
-        } catch (Exception e) {
-            throw new ApiFailureException("用户名已存在", e);
-        }
-        return saved ? new CreateUserRes(user.getId(), user.getUsername()) : null;
-    }
 
     public User getByUsername(String username) {
         LambdaQueryWrapper<User> query = Wrappers.<User>lambdaQuery().eq(User::getUsername, username);

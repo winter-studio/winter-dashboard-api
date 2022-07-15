@@ -1,6 +1,7 @@
 package org.winterframework.dashboard.api.user.service;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,9 @@ public class UserRoleService extends ServiceImpl<UserRoleMapper, UserRole> imple
             }).toList();
             this.saveBatch(userRoles);
         }
+    }
+
+    public void deleteByRoleIds(List<Integer> ids) {
+        this.remove(Wrappers.lambdaQuery(UserRole.class).in(UserRole::getRoleId, ids));
     }
 }

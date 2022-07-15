@@ -3,6 +3,7 @@ package org.winterframework.dashboard.api.user.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,12 +28,12 @@ import org.winterframework.dashboard.web.model.PageRes;
  */
 @Tag(name = "用户模块")
 @RestController
-@RequestMapping("/admin/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
+@PreAuthorize("hasRole(@Roles.ADMIN)")
 public class AdminUserController {
 
     private final UserService userService;
-
 
     @Operation(summary = "分页查询用户列表")
     @GetMapping

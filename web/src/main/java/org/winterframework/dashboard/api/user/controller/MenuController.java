@@ -17,10 +17,10 @@ import org.winterframework.dashboard.api.user.model.data.MenuTree;
 import org.winterframework.dashboard.api.user.model.request.MoveMenuRequest;
 import org.winterframework.dashboard.api.user.service.MenuService;
 import org.winterframework.dashboard.web.model.ApiRes;
+import org.winterframework.dashboard.web.resolver.JsonParam;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Kyun
@@ -77,8 +77,8 @@ public class MenuController {
 
     @Operation(summary = "批量删除菜单")
     @DeleteMapping
-    public ApiRes<Boolean> deleteMenus(@RequestBody Map<String,List<Integer>> body) {
-        boolean succeeded = menuService.deleteMenus(body.get("ids"));
+    public ApiRes<Boolean> deleteMenus(@JsonParam("ids") List<Integer> ids) {
+        boolean succeeded = menuService.deleteMenus(ids);
         return ApiRes.<Boolean>baseOn(succeeded)
                      .successThen().message("删除成功")
                      .failureThen().message("删除失败");

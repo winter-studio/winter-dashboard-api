@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * 数据权限调度器
+ */
 public class DataPermissionEvaluator implements PermissionEvaluator {
 
     private final List<DataPermissionHandler> handlers;

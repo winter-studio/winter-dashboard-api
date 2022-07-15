@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * <p>
  *
@@ -23,10 +25,11 @@ public class Role {
     private Integer id;
 
     @Schema(description = "角色名称")
+    @NotNull
     private String name;
 
     @Schema(description = "角色代码")
+    @NotNull
     private String code;
-
 
 }
