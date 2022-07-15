@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 06/07/2022 16:40:51
+ Date: 15/07/2022 18:01:19
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `menu`  (
   `keep_alive` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否缓存',
   `sort` smallint NOT NULL COMMENT '排序(基于同级)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of menu
@@ -44,7 +44,8 @@ INSERT INTO `menu` VALUES (21, 20, 'workplace', '工作台', NULL, NULL, 'dashbo
 INSERT INTO `menu` VALUES (36, NULL, 'system', '系统设置', 'AppstoreAddOutlined', NULL, NULL, 1, 0, 0, 4);
 INSERT INTO `menu` VALUES (37, 36, 'menu', '菜单管理', 'MenuOutlined', NULL, 'system/menu/Menu.vue', 2, 0, 1, 1);
 INSERT INTO `menu` VALUES (38, NULL, 'about', '关于', 'ProjectOutlined', 'new', 'About.vue', 2, 0, 1, 5);
-INSERT INTO `menu` VALUES (45, 36, 'users', '用户管理', 'UsergroupAddOutlined', NULL, 'system/user/User.vue', 2, 0, 1, 2);
+INSERT INTO `menu` VALUES (45, 36, 'users', '用户管理', 'UsergroupAddOutlined', NULL, 'system/user/UserList.vue', 2, 0, 1, 2);
+INSERT INTO `menu` VALUES (46, 36, 'role', '角色管理', 'UserSwitchOutlined', NULL, 'system/role/Role.vue', 2, 0, 1, 3);
 
 -- ----------------------------
 -- Table structure for role
@@ -55,7 +56,7 @@ CREATE TABLE `role`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色名称',
   `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '角色代码',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of role
@@ -72,31 +73,18 @@ CREATE TABLE `role_menu`  (
   `role_id` int UNSIGNED NOT NULL,
   `menu_id` int NOT NULL,
   PRIMARY KEY (`role_id`, `menu_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of role_menu
 -- ----------------------------
 INSERT INTO `role_menu` VALUES (1, 20);
 INSERT INTO `role_menu` VALUES (1, 21);
-INSERT INTO `role_menu` VALUES (1, 22);
-INSERT INTO `role_menu` VALUES (1, 23);
-INSERT INTO `role_menu` VALUES (1, 24);
-INSERT INTO `role_menu` VALUES (1, 25);
-INSERT INTO `role_menu` VALUES (1, 26);
-INSERT INTO `role_menu` VALUES (1, 27);
-INSERT INTO `role_menu` VALUES (1, 28);
-INSERT INTO `role_menu` VALUES (1, 29);
-INSERT INTO `role_menu` VALUES (1, 30);
-INSERT INTO `role_menu` VALUES (1, 31);
-INSERT INTO `role_menu` VALUES (1, 32);
-INSERT INTO `role_menu` VALUES (1, 33);
-INSERT INTO `role_menu` VALUES (1, 34);
-INSERT INTO `role_menu` VALUES (1, 35);
 INSERT INTO `role_menu` VALUES (1, 36);
 INSERT INTO `role_menu` VALUES (1, 37);
 INSERT INTO `role_menu` VALUES (1, 38);
 INSERT INTO `role_menu` VALUES (1, 45);
+INSERT INTO `role_menu` VALUES (1, 46);
 
 -- ----------------------------
 -- Table structure for upload_file
@@ -114,7 +102,7 @@ CREATE TABLE `upload_file`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `deleted` tinyint NOT NULL DEFAULT 0 COMMENT '删除标识',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '文件上传' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '文件上传' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of upload_file
@@ -142,13 +130,16 @@ CREATE TABLE `user`  (
   `mobile` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '电话号码',
   `status` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '状态(0:正常)',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `idx_u_username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户' ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `idx_u_username`(`username` ASC) USING BTREE,
+  UNIQUE INDEX `idx_u_mobile`(`mobile` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', '$2a$12$iIhN5Q3hUHRYD9k4t5oQWux1YPG5CYl/acjUHXDZNhbUUMLYic0SW', '2022-06-16 03:58:10', 0, NULL, '管理员', NULL, NULL, '0');
+INSERT INTO `user` VALUES (1, 'admin', '$2a$12$iIhN5Q3hUHRYD9k4t5oQWux1YPG5CYl/acjUHXDZNhbUUMLYic0SW', '2022-07-14 17:34:19', 0, NULL, '管理员', 'https://awss3.iamkyun.com:8443/profile/default_user_profile.svg', '18675802286', '0');
+INSERT INTO `user` VALUES (2, 'admin2', '$2a$12$iIhN5Q3hUHRYD9k4t5oQWux1YPG5CYl/acjUHXDZNhbUUMLYic0SW', '2022-07-15 10:23:24', 0, NULL, '管理员2', 'https://awss3.iamkyun.com:8443/profile/default_user_profile.svg', '18675802236', '0');
+INSERT INTO `user` VALUES (10, 'test', '$2a$12$WcXy5MNxLUR1hRS99eKRxuGq4FWOCDV56D9QpYcjvS54cn0qWE6Fi', '2022-07-14 17:57:19', 1, NULL, '测试', 'http://dashboard.iamkyun.com:9000/userprofile/avatar/1547508762485653504.jpg', '12312312312', '0');
 
 -- ----------------------------
 -- Table structure for user_role
@@ -158,7 +149,7 @@ CREATE TABLE `user_role`  (
   `user_id` bigint UNSIGNED NOT NULL COMMENT '用户ID',
   `role_id` int UNSIGNED NOT NULL,
   PRIMARY KEY (`user_id`, `role_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user_role
@@ -166,5 +157,6 @@ CREATE TABLE `user_role`  (
 INSERT INTO `user_role` VALUES (1, 1);
 INSERT INTO `user_role` VALUES (2, 1);
 INSERT INTO `user_role` VALUES (2, 2);
+INSERT INTO `user_role` VALUES (10, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
