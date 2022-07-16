@@ -73,14 +73,21 @@ public class RoleController {
 
     @Operation(summary = "删除角色")
     @DeleteMapping
-    public ApiRes<Void> deleteRoles(@JsonParam("ids") List<Integer> ids) {
-        roleService.deleteRoles(ids);
+    public ApiRes<Void> deleteRoles(@JsonParam("roles") List<Integer> roles) {
+        roleService.deleteRoles(roles);
         return ApiRes.success();
     }
 
     @Operation(summary = "获取角色菜单")
     @GetMapping("/{id}/menus")
-    public ApiRes<List<Integer>> deleteRoles(@PathVariable Integer id) {
+    public ApiRes<List<Integer>> getRoleMenus(@PathVariable Integer id) {
         return ApiRes.success(roleMenuService.getRoleMenuIds(id));
+    }
+
+    @Operation(summary = "获取角色菜单")
+    @PutMapping("/{id}/menus")
+    public ApiRes<Void> updateRoleMenus(@PathVariable Integer id,@JsonParam("menus") List<Integer> menus) {
+        roleMenuService.updateRoleMenus(id, menus);
+        return ApiRes.success();
     }
 }

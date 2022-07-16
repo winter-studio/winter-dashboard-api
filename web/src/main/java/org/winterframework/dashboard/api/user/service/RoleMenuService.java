@@ -1,9 +1,11 @@
 package org.winterframework.dashboard.api.user.service;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.winterframework.dashboard.api.user.entity.RoleMenu;
 import org.winterframework.dashboard.api.user.mapper.RoleMenuMapper;
 
@@ -22,5 +24,19 @@ public class RoleMenuService extends ServiceImpl<RoleMenuMapper, RoleMenu> imple
 
     public List<Integer> getRoleMenuIds(Integer id) {
         return baseMapper.getMenuIdsByRoleId(id);
+    }
+
+    @Transactional
+    public void updateRoleMenus(Integer id, List<Integer> ids) {
+        remove(Wrappers.lambdaQuery(RoleMenu.class).eq(RoleMenu::getRoleId, id));
+        if (CollectionUtils.isNotEmpty(ids)) {
+            List<RoleMenu> roleMenus = ids.stream().map(menuId -> {
+                RoleMenu roleMenu = new RoleMenu();
+                roleMenu.setRoleId(id);
+                roleMenu.setMenuId(menuId);
+                return roleMenu;
+            }).toList();
+            saveBatch(roleMenus);
+        }
     }
 }
