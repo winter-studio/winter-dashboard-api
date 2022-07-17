@@ -18,6 +18,8 @@ import org.winterframework.dashboard.api.user.mapper.UserMapper;
 import org.winterframework.dashboard.api.user.model.data.MenuTree;
 import org.winterframework.dashboard.api.user.model.request.AdminUserPageReq;
 import org.winterframework.dashboard.api.user.model.request.UserEditForm;
+import org.winterframework.dashboard.api.user.model.request.UserPassword;
+import org.winterframework.dashboard.api.user.model.request.UserProfile;
 import org.winterframework.dashboard.api.user.model.response.AdminUserForm;
 import org.winterframework.dashboard.api.user.model.response.AdminUserPageItem;
 import org.winterframework.dashboard.api.user.model.response.UserInfoResponse;
@@ -28,6 +30,7 @@ import org.winterframework.dashboard.security.utils.SecurityUtils;
 import org.winterframework.dashboard.web.model.PageRes;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @author Kyun
@@ -40,8 +43,8 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
     private final PasswordEncoder passwordEncoder;
     private final MenuMapper menuMapper;
     private final UserRoleService userRoleService;
-
     private final MinioManager minioManager;
+    private final Pattern passwordPattern = Pattern.compile("^[a-zA-Z0-9_]{6,32}$");
 
     public User getByUsername(String username) {
         LambdaQueryWrapper<User> query = Wrappers.<User>lambdaQuery().eq(User::getUsername, username);
@@ -98,6 +101,9 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         User user = new User();
         user.setUsername(form.getUsername());
         if (form.getPassword() != null) {
+            if (!passwordPattern.matcher(form.getPassword()).matches()) {
+                throw new IllegalArgumentException("密码格式不正确");
+            }
             user.setPassword(passwordEncoder.encode(form.getPassword()));
         }
         user.setStatus(form.getStatus());
@@ -113,5 +119,28 @@ public class UserService extends ServiceImpl<UserMapper, User> implements IServi
         user.setId(id);
         this.updateById(user);
         userRoleService.addUserRoles(user.getId(), form.getRoles());
+    }
+
+    public void updateUserProfile(UserProfile profile) {
+        User user = new User();
+        user.setId(SecurityUtils.getUserId());
+        user.setAvatar(profile.getAvatar());
+        user.setNickname(profile.getNickname());
+        this.updateById(user);
+    }
+
+    public void updateUserPassword(UserPassword password) {
+        User user = new User();
+        if (password.getOldPassword() != null) {
+            if (!passwordEncoder.matches(password.getOldPassword(), user.getPassword())) {
+                throw new IllegalArgumentException("当前密码不正确");
+            }
+        }
+        if (!passwordPattern.matcher(password.getNewPassword()).matches()) {
+            throw new IllegalArgumentException("密码格式不正确");
+        }
+        user.setId(SecurityUtils.getUserId());
+        user.setPassword(passwordEncoder.encode(password.getNewPassword()));
+        this.updateById(user);
     }
 }

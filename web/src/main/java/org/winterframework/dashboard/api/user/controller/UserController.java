@@ -4,13 +4,17 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.winterframework.dashboard.api.user.model.data.MenuTree;
+import org.winterframework.dashboard.api.user.model.request.UserPassword;
+import org.winterframework.dashboard.api.user.model.request.UserProfile;
 import org.winterframework.dashboard.api.user.model.response.UserInfoResponse;
 import org.winterframework.dashboard.api.user.service.UserService;
 import org.winterframework.dashboard.web.model.ApiRes;
@@ -36,6 +40,20 @@ public class UserController {
         return ApiRes.<UserInfoResponse>baseOn(res != null)
                      .successThen().data(res)
                      .failureThen().message("获取用户信息失败");
+    }
+
+    @Operation(summary = "获取当前登录用户信息")
+    @PostMapping("/me")
+    public ApiRes<UserInfoResponse> updateMyInfo(@Validated @RequestBody UserProfile profile) {
+        userService.updateUserProfile(profile);
+        return ApiRes.success();
+    }
+
+    @Operation(summary = "更改密码")
+    @PostMapping("/me/password")
+    public ApiRes<UserInfoResponse> updateMyPassword(@Validated @RequestBody UserPassword password) {
+        userService.updateUserPassword(password);
+        return ApiRes.success();
     }
 
     @Operation(summary = "获取当前登录用户菜单列表")
