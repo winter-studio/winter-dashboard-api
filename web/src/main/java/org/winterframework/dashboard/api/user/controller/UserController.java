@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,7 +44,7 @@ public class UserController {
     }
 
     @Operation(summary = "获取当前登录用户信息")
-    @PostMapping("/me")
+    @PutMapping("/me")
     public ApiRes<UserInfoResponse> updateMyInfo(@Validated @RequestBody UserProfile profile) {
         userService.updateUserProfile(profile);
         return ApiRes.success();
