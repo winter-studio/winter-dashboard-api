@@ -20,7 +20,6 @@ import org.winterframework.dashboard.security.access.DataPermissionEvaluator;
 import org.winterframework.dashboard.security.core.JwtAccessDeniedHandler;
 import org.winterframework.dashboard.security.core.JwtAuthenticationEntryPoint;
 import org.winterframework.dashboard.security.core.JwtAuthenticationFilter;
-import org.winterframework.dashboard.security.permission.UserRole;
 import org.winterframework.dashboard.security.permission.handler.DataPermissionHandler;
 
 import java.util.List;
@@ -80,7 +79,6 @@ public class WebSecurityConfig extends GlobalMethodSecurityConfiguration {
             .and().authorizeRequests()
             .requestMatchers(requestMatchers.toArray(new PermitAllRequestMatcher[0])).permitAll()
             // admin api
-            .mvcMatchers("/admin/**").hasRole(UserRole.ADMIN.code())
             .anyRequest().authenticated();
         return http.build();
     }
