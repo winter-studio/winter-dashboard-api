@@ -9,7 +9,7 @@
         <version>2.7.0</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
-    <groupId>org.winterframeork.dashboard</groupId>
+    <groupId>cn.wintersoft.dashboard</groupId>
     <artifactId>parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <description>Winter Dashboard Backend Service</description>
