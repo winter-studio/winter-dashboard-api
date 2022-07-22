@@ -11,9 +11,9 @@ import java.util.Collections;
 
 public class WinterGenerator {
     public static void main(String[] args) {
-        String moduleName = "user";
+        String moduleName = "dict";
         String[] tables = new String[]{
-                "user"
+                "dict", "dict_item"
         };
 
         String url =
