@@ -38,5 +38,9 @@ public class DictItem {
     @Size(max = 200, message = "字典项值长度不能超过200")
     private String value;
 
+    @Schema(description = "extra")
+    @Size(max = 200, message = "字典项附加值长度不能超过200")
+    private String extra;
+
 
 }

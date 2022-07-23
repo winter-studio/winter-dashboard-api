@@ -56,7 +56,8 @@ public class DictController {
     @Operation(summary = "获取字典项")
     @GetMapping("/{code}/items")
     public ApiRes<List<DictItem>> getDictItems(@PathVariable("code") String code) {
-        return ApiRes.success(dictItemService.getDictItems(code));
+        List<DictItem> dictItems = dictItemService.getDictItems(code);
+        return ApiRes.success(dictItems);
     }
 
     @Operation(summary = "删除字典")
