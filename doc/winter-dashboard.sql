@@ -11,11 +11,40 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 15/07/2022 18:01:19
+ Date: 23/07/2022 11:11:21
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for dict
+-- ----------------------------
+DROP TABLE IF EXISTS `dict`;
+CREATE TABLE `dict`  (
+  `code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '字典代码',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '字典名称',
+  PRIMARY KEY (`code`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of dict
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for dict_item
+-- ----------------------------
+DROP TABLE IF EXISTS `dict_item`;
+CREATE TABLE `dict_item`  (
+  `dict_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'dict.code',
+  `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'key',
+  `value` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'value',
+  PRIMARY KEY (`dict_code`, `key`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of dict_item
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for menu
@@ -34,7 +63,7 @@ CREATE TABLE `menu`  (
   `keep_alive` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否缓存',
   `sort` smallint NOT NULL COMMENT '排序(基于同级)',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of menu
@@ -43,9 +72,12 @@ INSERT INTO `menu` VALUES (20, NULL, 'dashboard', 'Dashboard', 'DashboardOutline
 INSERT INTO `menu` VALUES (21, 20, 'workplace', '工作台', NULL, NULL, 'dashboard/Workplace.vue', 2, 0, 1, 1);
 INSERT INTO `menu` VALUES (36, NULL, 'system', '系统设置', 'AppstoreAddOutlined', NULL, NULL, 1, 0, 0, 4);
 INSERT INTO `menu` VALUES (37, 36, 'menu', '菜单管理', 'MenuOutlined', NULL, 'system/menu/Menu.vue', 2, 0, 1, 1);
-INSERT INTO `menu` VALUES (38, NULL, 'about', '关于', 'ProjectOutlined', 'new', 'About.vue', 2, 0, 1, 5);
+INSERT INTO `menu` VALUES (38, NULL, 'about', '关于', 'ProjectOutlined', 'new', 'About.vue', 2, 0, 1, 6);
 INSERT INTO `menu` VALUES (45, 36, 'users', '用户管理', 'UsergroupAddOutlined', NULL, 'system/user/UserList.vue', 2, 0, 1, 2);
 INSERT INTO `menu` VALUES (46, 36, 'role', '角色管理', 'UserSwitchOutlined', NULL, 'system/role/Role.vue', 2, 0, 1, 3);
+INSERT INTO `menu` VALUES (47, NULL, 'dev', '开发管理', 'CodeOutlined', NULL, NULL, 1, 0, 1, 5);
+INSERT INTO `menu` VALUES (48, 47, 'design', '页面设计', 'FormOutlined', NULL, 'system/dev/design/Designer.vue', 2, 0, 1, 1);
+INSERT INTO `menu` VALUES (49, 36, 'dict', '字典管理', 'ReadOutlined', NULL, 'system/dict/Dict.vue', 2, 0, 1, 4);
 
 -- ----------------------------
 -- Table structure for role
@@ -85,6 +117,9 @@ INSERT INTO `role_menu` VALUES (1, 37);
 INSERT INTO `role_menu` VALUES (1, 38);
 INSERT INTO `role_menu` VALUES (1, 45);
 INSERT INTO `role_menu` VALUES (1, 46);
+INSERT INTO `role_menu` VALUES (1, 47);
+INSERT INTO `role_menu` VALUES (1, 48);
+INSERT INTO `role_menu` VALUES (1, 49);
 
 -- ----------------------------
 -- Table structure for upload_file
@@ -137,7 +172,7 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES (1, 'admin', '$2a$12$iIhN5Q3hUHRYD9k4t5oQWux1YPG5CYl/acjUHXDZNhbUUMLYic0SW', '2022-07-14 17:34:19', 0, NULL, '管理员', 'https://awss3.iamkyun.com:8443/profile/default_user_profile.svg', '18675802286', '0');
+INSERT INTO `user` VALUES (1, 'admin', '$2a$12$iIhN5Q3hUHRYD9k4t5oQWux1YPG5CYl/acjUHXDZNhbUUMLYic0SW', '2022-07-18 09:43:17', 0, NULL, '管理员', 'http://dashboard.iamkyun.com:9000/userprofile/avatar/1548845829928976384.jpg', '18675802286', '0');
 INSERT INTO `user` VALUES (2, 'admin2', '$2a$12$iIhN5Q3hUHRYD9k4t5oQWux1YPG5CYl/acjUHXDZNhbUUMLYic0SW', '2022-07-15 10:23:24', 0, NULL, '管理员2', 'https://awss3.iamkyun.com:8443/profile/default_user_profile.svg', '18675802236', '0');
 INSERT INTO `user` VALUES (10, 'test', '$2a$12$WcXy5MNxLUR1hRS99eKRxuGq4FWOCDV56D9QpYcjvS54cn0qWE6Fi', '2022-07-14 17:57:19', 1, NULL, '测试', 'http://dashboard.iamkyun.com:9000/userprofile/avatar/1547508762485653504.jpg', '12312312312', '0');
 
