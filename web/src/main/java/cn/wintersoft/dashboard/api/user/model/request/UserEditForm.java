@@ -7,6 +7,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
@@ -20,12 +21,11 @@ public class UserEditForm {
     @Pattern(regexp = "^[a-zA-Z0-9_]{4,16}$", message = "用户名必须是4-16位字母、数字、下划线")
     private String username;
     @NotNull(message = "昵称不能为空")
-    @Max(value = 20, message = "昵称最大长度为20")
+    @Size(max = 20, message = "昵称最大长度为20")
     @Schema(description = "昵称")
     private String nickname;
     @Schema(description = "密码")
-    @Max(value = 32, message = "密码最大长度为32")
-    @Min(value = 6, message = "密码最小长度为6")
+    @Size(min = 6, max = 32, message = "密码长度6-32")
     @NotNull(message = "密码不能为空")
     private String password;
     @Schema(description = "手机号")
