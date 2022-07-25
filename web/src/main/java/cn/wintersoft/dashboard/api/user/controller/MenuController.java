@@ -46,11 +46,11 @@ public class MenuController {
     }
 
     @Operation(summary = "新增菜单")
-    @PostMapping()
-    public ApiRes<Menu> addMenu(@Validated @RequestBody Menu menu) {
+    @PostMapping
+    public ApiRes<Integer> addMenu(@Validated @RequestBody Menu menu) {
         boolean succeeded = menuService.addMenu(menu);
-        return ApiRes.<Menu>baseOn(succeeded)
-                     .successThen().message("新增成功").data(menu)
+        return ApiRes.<Integer>baseOn(succeeded)
+                     .successThen().message("新增成功").data(menu.getId())
                      .failureThen().message("新增失败")
                      .get();
     }
