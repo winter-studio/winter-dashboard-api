@@ -1,5 +1,6 @@
 package cn.wintersoft.dashboard.web.model;
 
+import cn.wintersoft.dashboard.web.utils.LocaleMessage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,7 +31,7 @@ public class ApiRes<T> implements Serializable {
 
     public ApiRes(int code, String message, T data, ApiResType type) {
         this.code = code;
-        this.message = message;
+        this.message = LocaleMessage.get(message);
         this.data = data;
         this.type = type;
     }
