@@ -12,8 +12,10 @@ import java.util.List;
 public class PageRes<T> implements Serializable {
     @Schema(description = "数据")
     private List<T> list;
-    @Schema(description = "总页数")
+    @Schema(description = "总数")
     private long total;
+    @Schema(description = "总页数")
+    private long pages;
     @Schema(description = "当前页数")
     private long page;
     @Schema(description = "每页大小")
@@ -26,6 +28,7 @@ public class PageRes<T> implements Serializable {
         pageRes.setPage(mpPage.getCurrent());
         pageRes.setPageSize(mpPage.getSize());
         pageRes.setTotal(mpPage.getTotal());
+        pageRes.setPages(mpPage.getPages());
         pageRes.setList(mpPage.getRecords());
         pageRes.setHasMore(mpPage.getCurrent() < mpPage.getPages());
         return pageRes;
