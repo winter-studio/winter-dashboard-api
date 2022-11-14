@@ -24,7 +24,7 @@ public class UserEditForm {
     private String nickname;
     @Schema(description = "密码")
     @Size(min = 6, max = 32, message = "密码长度6-32")
-    @NotNull(message = "密码不能为空")
+    // @NotNull(message = "密码不能为空")
     private String password;
     @Schema(description = "手机号")
     @Pattern(regexp = "^1\\d{10}$", message = "手机号格式不正确")
