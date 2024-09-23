@@ -3,7 +3,7 @@ package cn.wintersoft.dashboard.api.user.model.request;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "移动菜单请求")
 public record MoveMenuRequest(

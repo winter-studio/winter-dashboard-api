@@ -13,7 +13,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import cn.wintersoft.dashboard.web.exception.ApiErrorException;
 import cn.wintersoft.dashboard.web.utils.Jackson;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Objects;

@@ -9,6 +9,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,7 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import cn.wintersoft.dashboard.security.utils.SecurityUtils;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
@@ -32,6 +33,7 @@ public class JwtProvider {
     private final String rawSecretKey;
     private SecretKey key;
     private final int expireInSeconds;
+    @Getter
     private final int refreshTokenExpireInSeconds;
     private JwtParser jwtParser;
     public final static String REDIS_KEY_PREFIX = "REVOKED_TOKEN:";
@@ -50,49 +52,51 @@ public class JwtProvider {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
-    public int getRefreshTokenExpireInSeconds() {
-        return refreshTokenExpireInSeconds;
-    }
-
     @PostConstruct
     public void postConstruct() {
         log.info("JwtProvider initialized");
         this.key = Keys.hmacShaKeyFor(rawSecretKey.getBytes(StandardCharsets.UTF_8));
-        this.jwtParser = Jwts.parserBuilder().setSigningKey(key).build();
+        this.jwtParser = Jwts.parser().verifyWith(key).build();
     }
 
     public String createToken(Long userId, List<String> roles) {
-        Claims claims = Jwts.claims().setId(UUID.randomUUID().toString()).setSubject(userId.toString());
-        claims.put("roles", roles);
+        Claims claims = Jwts.claims()
+                            .id(UUID.randomUUID().toString())
+                            .subject(userId.toString())
+                            .add("roles", roles)
+                            .build();
         Date now = new Date();
         Date validity = new Date(now.getTime() + (expireInSeconds * 1000L));
         return Jwts.builder()
-                   .setClaims(claims)
-                   .setIssuedAt(now)
-                   .setExpiration(validity)
+                   .claims(claims)
+                   .issuedAt(now)
+                   .expiration(validity)
                    .signWith(key)
                    .compact();
     }
 
     public String createRefreshToken(String userId) {
-        Claims claims = Jwts.claims().setId(UUID.randomUUID().toString()).setSubject(userId);
+        Claims claims = Jwts.claims()
+                            .id(UUID.randomUUID().toString())
+                            .subject(userId)
+                            .build();
         Date now = new Date();
         Date validity = new Date(now.getTime() + (refreshTokenExpireInSeconds * 1000L));
         return Jwts.builder()
-                   .setClaims(claims)
-                   .setIssuedAt(now)
-                   .setExpiration(validity)
+                   .claims(claims)
+                   .issuedAt(now)
+                   .expiration(validity)
                    .signWith(key)
                    .compact();
     }
 
     public String validateRefreshToken(String token) {
         try {
-            Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
-            if (isTokenRevoked(TOKEN_TYPE_REFRESH, claimsJws.getBody().getId())) {
+            Jws<Claims> claimsJws = jwtParser.parseSignedClaims(token);
+            if (isTokenRevoked(TOKEN_TYPE_REFRESH, claimsJws.getPayload().getId())) {
                 return null;
             }
-            return claimsJws.getBody().getSubject();
+            return claimsJws.getPayload().getSubject();
         } catch (ExpiredJwtException e) {
             log.warn("Refresh token expired", e);
         } catch (UnsupportedJwtException | MalformedJwtException | IllegalArgumentException e) {
@@ -103,8 +107,8 @@ public class JwtProvider {
 
     public Claims getClaims(String token) {
         try {
-            Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
-            return claimsJws.getBody();
+            Jws<Claims> claimsJws = jwtParser.parseSignedClaims(token);
+            return claimsJws.getPayload();
         } catch (Exception ignored) {
         }
         return null;
@@ -112,8 +116,8 @@ public class JwtProvider {
 
     public Authentication applyToken(String token) {
         try {
-            Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);
-            Claims claims = claimsJws.getBody();
+            Jws<Claims> claimsJws = jwtParser.parseSignedClaims(token);
+            Claims claims = claimsJws.getPayload();
             if (isTokenRevoked(TOKEN_TYPE_ACCESS, claims.getId())) {
                 SecurityUtils.setAuthenticationState(SecurityUtils.JWT_TOKEN_EXPIRED);
                 return null;

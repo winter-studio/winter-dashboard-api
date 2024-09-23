@@ -3,7 +3,7 @@ package cn.wintersoft.dashboard.security.config;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.util.AntPathMatcher;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Set;
 
 public abstract class PermitAllRequestMatcher implements RequestMatcher {

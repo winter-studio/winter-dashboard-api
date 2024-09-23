@@ -3,7 +3,7 @@ package cn.wintersoft.dashboard.api.user.model.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 @Schema(description = "更改密码")
 @Data
