@@ -50,7 +50,7 @@ public class WinterGenerator {
 
                          })
                          .templateConfig(builder -> {
-                             builder.disable(TemplateType.SERVICEIMPL)
+                             builder.disable(TemplateType.SERVICE_IMPL)
                                     .entity("/templates/entity.java")
                                     .service("/templates/service.java")
                                     .mapper("/templates/mapper.java")
