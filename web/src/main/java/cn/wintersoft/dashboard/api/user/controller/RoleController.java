@@ -1,6 +1,10 @@
 package cn.wintersoft.dashboard.api.user.controller;
 
+import cn.wintersoft.dashboard.api.user.model.request.AdminUserPageReq;
+import cn.wintersoft.dashboard.api.user.model.request.RolePageReq;
+import cn.wintersoft.dashboard.api.user.model.response.AdminUserPageItem;
 import cn.wintersoft.dashboard.web.model.ApiRes;
+import cn.wintersoft.dashboard.web.model.PageRes;
 import cn.wintersoft.dashboard.web.model.SelectOption;
 import cn.wintersoft.dashboard.web.resolver.JsonParam;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,11 +45,11 @@ public class RoleController {
         return ApiRes.success(roles);
     }
 
+    @Operation(summary = "分页查询角色列表")
     @GetMapping
-    @Operation(summary = "查询所有角色")
-    public ApiRes<List<Role>> getRoles() {
-        List<Role> roles = roleService.list();
-        return ApiRes.success(roles);
+    public ApiRes<PageRes<Role>> getPagingRoles(RolePageReq req) {
+        PageRes<Role> page = roleService.getRolePagingList(req);
+        return ApiRes.success(page);
     }
 
     @Operation(summary = "获取角色")

@@ -16,7 +16,8 @@ public class PageParam implements Serializable {
     @Schema(description = "页大小")
     private int pageSize = 10;
 
-    public Page<?> toPage() {
-        return new Page<>(page, pageSize);
+    public<T> Page<T> toPage() {
+        return new Page<T>(page, pageSize);
     }
+
 }
